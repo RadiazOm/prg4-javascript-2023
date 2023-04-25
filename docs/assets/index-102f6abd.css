@@ -1,1 +1,0 @@
-body{margin:0;padding:0;background-color:#1b9ad5}.fish{position:absolute;translate:300px 100px;animation:12s swimming linear infinite}@keyframes swimming{0%{translate:300px 100px}to{translate:0px 100px}}
