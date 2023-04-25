@@ -8,3 +8,5 @@ document.body.appendChild(div)
 const img = document.createElement("img")
 img.src = fishImage
 div.appendChild(img)
+
+// very cool
