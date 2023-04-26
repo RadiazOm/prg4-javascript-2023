@@ -1,5 +1,6 @@
 import { Actor, Engine, Vector, Label, Color, Font, FontUnit,  TileMap, DisplayMode } from "excalibur";
 import { Resources, ResourceLoader } from "./resources.js";
+import { Player } from "./player.js";
 
 let tilemap;
 let player;
@@ -38,15 +39,7 @@ export class Game extends Engine {
     tilemap.on("pointerup", this.clickEvent);
     this.add(tilemap);
 
-    player = new Actor({
-        width: Resources.Ski.width,
-        height: Resources.Ski.height
-    });
-    player.graphics.use(Resources.Ski.toSprite());
-    player.pos = new Vector(this.canvasWidth / 2, 100);
-    player.scale = new Vector(3, 3);
-    player.pointer.useGraphicsBounds = true;
-    player.on("collisionstart", this.playerCollision)
+    player = new Player(200, this);
     this.add(player);
 
     for (let i = 0; i < 8; i++) {
