@@ -5,17 +5,21 @@ let tilemap;
 let player;
 let trees = [];
 let gameover = false;
+let self;
 
 export class Game extends Engine {
   constructor() {
     super({ width: 500,
             height: 500,
-            displayMode: DisplayMode.FillScreen
+            displayMode: DisplayMode.FitScreen
         });
     this.start(ResourceLoader).then(() => this.startGame());
   }
 
   startGame() {
+    this.input.keyboard.on("press", this.keyPressed);
+    this.input.keyboard.on("release", this.keyReleased);
+    self = this;
     tilemap = new TileMap({
       rows: 100,
       columns: 120,
@@ -42,11 +46,10 @@ export class Game extends Engine {
     player.pos = new Vector(this.canvasWidth / 2, 100);
     player.scale = new Vector(3, 3);
     player.pointer.useGraphicsBounds = true;
-    player.on("pointerup", this.clickEvent);
     player.on("collisionstart", this.playerCollision)
     this.add(player);
 
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < 8; i++) {
       const tree = new Actor({
         width: Resources.Tree.width,
         height: Resources.Tree.height
@@ -64,35 +67,48 @@ export class Game extends Engine {
     }
   }
 
-  clickEvent() {
-    if (player.vel.x > 0) {
-      player.vel = new Vector(-200, 0);
-    } else {
-      player.vel = new Vector(200, 0);
-    }
-  }
-
   playerCollision(e) {
     console.log(e);
     gameover = true
     console.log('collision')
     player.vel.x = 0;
     tilemap.vel.y = 0;
-    player.off('pointerup', this.clickEvent)
+    this.input.keyboard.off("press", this.keyPressed);
+    this.input.keyboard.off("release", this.keyReleased);
     for (const tree of trees) {
         tree.vel.y = 0;
     }
     const label = new Label({
         text: 'Game Over',
-        pos: new Vector(this.canvasWidth / 2, this.canvasHeight / 2),
+        pos: new Vector(200, 200),
         font: new Font({
             family: 'impact',
             size: 24,
             unit: FontUnit.Px
         })
     });
-    this.add(this.label);
-}
+    self.add(label);
+  }
+
+  keyPressed(e) {
+    if (e.value == "a") {
+      player.vel.x -= 200
+    }
+    if (e.value == "d") {
+      player.vel.x += 200
+    }
+  }
+
+
+  keyReleased(e) {
+    if (e.value == "a") {
+      player.vel.x += 200
+    }
+    if (e.value == "d") {
+      player.vel.x -= 200
+    }
+
+  }
 
   onPostDraw() {
     if (gameover == false) {
@@ -108,9 +124,9 @@ export class Game extends Engine {
                 }
             }
             if (player.pos.x < 0) {
-                player.vel = new Vector(200, 0);
+                player.pos.x = 0;
             } else if (player.pos.x > this.canvasWidth) {
-                player.vel = new Vector(-200, 0);
+                player.pos.x = this.canvasWidth;
             }
         }
     }
