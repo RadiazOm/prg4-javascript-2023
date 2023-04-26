@@ -1,28 +1,39 @@
 import { Actor, Engine, Vector, Label, Color, Font, FontUnit,  TileMap, DisplayMode } from "excalibur";
+import { Game } from "./main.js";
 import { Resources, ResourceLoader } from "./resources.js";
 
 export class Player extends Actor {
+
+    // Global variables
+    game;
+
     constructor(Xpos, game) {
         super({
             width: Resources.Ski.width,
             height: Resources.Ski.height
         })
-        game.input.keyboard.on("press", () =>  this.keyPressed);
-        game.input.keyboard.on("release", () =>  this.keyReleased);
+        this.game = game
         this.graphics.use(Resources.Ski.toSprite());
         this.pos = new Vector(Xpos, 100);
         this.scale = new Vector(3, 3);
-        this.on("collisionstart", this.playerCollision)
+        this.on("collisionstart", (e) => {this.onCollision(e)})
     }
 
-    OnCollision(e) {
-        if (e.target.tags.includes('tree')){
-            game.gameOver()
+    onCollision(e) {
+        if (e.other.tags.includes('tree')){
+            this.game.gameOver();
+        }
+    }
+
+    update() {
+        if (this.pos.x < 0) {
+            this.pos.x = 0;
+        } else if (this.pos.x > this.canvasWidth) {
+            this.pos.x = this.canvasWidth;
         }
     }
 
     keyPressed(e) {
-        console.log(this);
         if (e.value == "a") {
             this.vel.x -= 200;
         }
