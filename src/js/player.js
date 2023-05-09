@@ -1,21 +1,21 @@
-import { Actor, Engine, Vector, Label, Color, Font, FontUnit,  TileMap, DisplayMode } from "excalibur";
-import { Game } from "./main.js";
-import { Resources, ResourceLoader } from "./resources.js";
+import { Actor, Resource, Vector } from "excalibur";
+import { Resources } from "./resources.js";
 
 export class Player extends Actor {
+    sprite = [Resources.Ski.image, Resources.Fish.image]
     direction = new Vector(0, 0)
     game;
     turningRadius = 0.5;
-    turningSpeed = 0.01
-    strafingSpeed = 500
+    turningSpeed = 0.015
+    strafingSpeed = 800
 
     constructor(Xpos, game) {
         super({
             width: Resources.Ski.width,
             height: Resources.Ski.height
         })
-        game.input.keyboard.on("press", () =>  this.keyPressed);
-        game.input.keyboard.on("release", () =>  this.keyReleased);
+        game.input.keyboard.on("press", (e) =>  this.keyPressed(e));
+        game.input.keyboard.on("release", (e) =>  this.keyReleased(e));
         this.game = game;
         this.graphics.use(Resources.Ski.toSprite());
         this.pos = new Vector(Xpos, 100);
@@ -27,6 +27,11 @@ export class Player extends Actor {
         console.log(e)
         if (e.other.tags.includes('tree')){
             this.game.gameOver()
+        } else if(e.other.tags.includes('collectable')){
+            this.game.score += 100
+            this.game.showText(this.pos, '+100')
+            e.other.graphics.visible = false;
+            e.other.explode();
         }
     }
 
@@ -56,7 +61,12 @@ export class Player extends Actor {
                 this.rotation = Math.max(Math.PI * 2 - this.turningRadius , this.rotation + this.direction.x * this.turningSpeed)
             }
             this.vel.x = (this.rotation - ((this.rotation > this.turningRadius) * Math.PI * 2)) * this.strafingSpeed
+            if (this.pos.x > this.game.screen.drawWidth) {
+                this.pos.x = this.game.screen.drawWidth
+            }
+            if (this.pos.x < 0) {
+                this.pos.x = 0
+            }
         }
     }
-
 }
