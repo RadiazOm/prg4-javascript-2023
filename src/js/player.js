@@ -1,4 +1,5 @@
 import { Actor, Engine, Vector, Label, Color, Font, FontUnit,  TileMap, DisplayMode } from "excalibur";
+import { Game } from "./main.js";
 import { Resources, ResourceLoader } from "./resources.js";
 
 export class Player extends Actor {
@@ -7,14 +8,17 @@ export class Player extends Actor {
     turningRadius = 0.5;
     turningSpeed = 0.01
     strafingSpeed = 500
+
+    // Global variables
+    game;
+
     constructor(Xpos, game) {
         super({
             width: Resources.Ski.width,
             height: Resources.Ski.height
         })
-        this.game = game
-        game.input.keyboard.on("press", (e) =>  this.keyPressed(e));
-        game.input.keyboard.on("release", (e) =>  this.keyReleased(e));
+        game.input.keyboard.on("press", () =>  this.keyPressed);
+        game.input.keyboard.on("release", () =>  this.keyReleased);
         this.graphics.use(Resources.Ski.toSprite());
         this.pos = new Vector(Xpos, 100);
         this.scale = new Vector(3, 3);
@@ -28,7 +32,6 @@ export class Player extends Actor {
     }
 
     keyPressed(e) {
-        console.log(this);
         if (e.value == "a") {
             this.direction.x -= 1
         }
