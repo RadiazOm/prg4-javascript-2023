@@ -1,12 +1,14 @@
-import { Actor, Engine, Vector, Label, Color, Font, FontUnit,  TileMap, DisplayMode } from "excalibur";
+import { Actor, Engine, Vector, Label, Color, Font, FontUnit,  TileMap, DisplayMode, FrameStats} from "excalibur";
 import { Resources, ResourceLoader } from "./resources.js";
 import { Player } from "./player.js";
+
 
 let tilemap;
 let player;
 let trees = [];
 let gameover = false;
 let self;
+let frame
 
 export class Game extends Engine {
   constructor() {
@@ -18,8 +20,6 @@ export class Game extends Engine {
   }
 
   startGame() {
-    this.input.keyboard.on("press", this.keyPressed);
-    this.input.keyboard.on("release", this.keyReleased);
     self = this;
     tilemap = new TileMap({
       rows: 100,
@@ -57,17 +57,18 @@ export class Game extends Engine {
       tree.tags.push('tree')
       trees.push(tree);
       this.add(tree);
+
+      frame = new FrameStats
+
     }
   }
 
-  playerCollision(e) {
-    console.log(e);
+  gameOver() {
     gameover = true
-    console.log('collision')
     player.vel.x = 0;
     tilemap.vel.y = 0;
-    this.input.keyboard.off("press", this.keyPressed);
-    this.input.keyboard.off("release", this.keyReleased);
+    // this.input.keyboard.off("press");
+    // this.input.keyboard.off("release");
     for (const tree of trees) {
         tree.vel.y = 0;
     }
@@ -81,26 +82,6 @@ export class Game extends Engine {
         })
     });
     self.add(label);
-  }
-
-  keyPressed(e) {
-    if (e.value == "a") {
-      player.vel.x -= 200
-    }
-    if (e.value == "d") {
-      player.vel.x += 200
-    }
-  }
-
-
-  keyReleased(e) {
-    if (e.value == "a") {
-      player.vel.x += 200
-    }
-    if (e.value == "d") {
-      player.vel.x -= 200
-    }
-
   }
 
   onPostDraw() {
@@ -122,6 +103,9 @@ export class Game extends Engine {
                 player.pos.x = this.canvasWidth;
             }
         }
+        let frames = new FrameStats
+        
+
     }
 }
 
