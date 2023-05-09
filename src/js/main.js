@@ -2,7 +2,6 @@ import { Actor, Engine, Vector, Label, Color, Font, FontUnit,  TileMap, DisplayM
 import { Resources, ResourceLoader } from "./resources.js";
 import { Player } from "./player.js";
 
-<<<<<<< HEAD
 
 let tilemap;
 let player;
@@ -11,8 +10,6 @@ let gameover = false;
 let self;
 let frame
 
-=======
->>>>>>> da7df8ad74a91594aaf3f97fd048a35fb9e8e448
 export class Game extends Engine {
   tilemap;
   player;
@@ -27,12 +24,8 @@ export class Game extends Engine {
   }
 
   startGame() {
-<<<<<<< HEAD
     self = this;
     tilemap = new TileMap({
-=======
-    this.tilemap = new TileMap({
->>>>>>> da7df8ad74a91594aaf3f97fd048a35fb9e8e448
       rows: 100,
       columns: 120,
       tileWidth: 64,
@@ -79,23 +72,12 @@ export class Game extends Engine {
   }
 
   gameOver() {
-<<<<<<< HEAD
     gameover = true
     player.vel.x = 0;
     tilemap.vel.y = 0;
     // this.input.keyboard.off("press");
     // this.input.keyboard.off("release");
     for (const tree of trees) {
-=======
-    console.log('press');
-    this.gameover = true
-    console.log('collision')
-    this.player.vel.x = 0;
-    this.tilemap.vel.y = 0;
-    this.input.keyboard.off("press", this.keyPressed);
-    this.input.keyboard.off("release", this.keyReleased);
-    for (const tree of this.trees) {
->>>>>>> da7df8ad74a91594aaf3f97fd048a35fb9e8e448
         tree.vel.y = 0;
     }
     const label = new Label({
@@ -107,11 +89,7 @@ export class Game extends Engine {
             unit: FontUnit.Px
         })
     });
-<<<<<<< HEAD
     self.add(label);
-=======
-    this.add(label);
->>>>>>> da7df8ad74a91594aaf3f97fd048a35fb9e8e448
   }
 
   onPostDraw() {
