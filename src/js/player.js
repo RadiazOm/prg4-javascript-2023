@@ -9,9 +9,6 @@ export class Player extends Actor {
     turningSpeed = 0.01
     strafingSpeed = 500
 
-    // Global variables
-    game;
-
     constructor(Xpos, game) {
         super({
             width: Resources.Ski.width,
@@ -19,6 +16,7 @@ export class Player extends Actor {
         })
         game.input.keyboard.on("press", () =>  this.keyPressed);
         game.input.keyboard.on("release", () =>  this.keyReleased);
+        this.game = game;
         this.graphics.use(Resources.Ski.toSprite());
         this.pos = new Vector(Xpos, 100);
         this.scale = new Vector(3, 3);
@@ -56,7 +54,6 @@ export class Player extends Actor {
             this.rotation = Math.max(Math.PI * 2 - this.turningRadius , this.rotation + this.direction.x * this.turningSpeed)
         }
         this.vel.x = (this.rotation - ((this.rotation > this.turningRadius) * Math.PI * 2)) * this.strafingSpeed
-        
     }
 
 }
