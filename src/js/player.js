@@ -24,7 +24,8 @@ export class Player extends Actor {
     }
 
     OnCollision(e) {
-        if (e.target.tags.includes('tree')){
+        console.log(e)
+        if (e.other.tags.includes('tree')){
             this.game.gameOver()
         }
     }
@@ -48,12 +49,14 @@ export class Player extends Actor {
     }
 
     update() {
-        if (this.rotation <= this.turningRadius) {
-            this.rotation = Math.min(this.turningRadius, this.rotation + this.direction.x * this.turningSpeed)
-        } else if (this.rotation >= Math.PI * 2 - this.turningRadius ) {
-            this.rotation = Math.max(Math.PI * 2 - this.turningRadius , this.rotation + this.direction.x * this.turningSpeed)
+        if (this.game.gameover == false) {
+            if (this.rotation <= this.turningRadius) {
+                this.rotation = Math.min(this.turningRadius, this.rotation + this.direction.x * this.turningSpeed)
+            } else if (this.rotation >= Math.PI * 2 - this.turningRadius ) {
+                this.rotation = Math.max(Math.PI * 2 - this.turningRadius , this.rotation + this.direction.x * this.turningSpeed)
+            }
+            this.vel.x = (this.rotation - ((this.rotation > this.turningRadius) * Math.PI * 2)) * this.strafingSpeed
         }
-        this.vel.x = (this.rotation - ((this.rotation > this.turningRadius) * Math.PI * 2)) * this.strafingSpeed
     }
 
 }

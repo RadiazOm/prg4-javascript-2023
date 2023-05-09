@@ -54,7 +54,6 @@ export class Game extends Engine {
       tree.addTag('tree')
       this.trees.push(tree);
       this.add(tree);
-
     }
 
     this.input.keyboard.on("press", (e) => {this.player.keyPressed(e)});
@@ -67,9 +66,9 @@ export class Game extends Engine {
     this.gameover = true
     this.player.vel.x = 0;
     this.tilemap.vel.y = 0;
-    // this.input.keyboard.off("press");
-    // this.input.keyboard.off("release");
-    for (const tree of trees) {
+    this.input.keyboard.off("press");
+    this.input.keyboard.off("release");
+    for (const tree of this.trees) {
         tree.vel.y = 0;
     }
     const label = new Label({
@@ -97,7 +96,6 @@ export class Game extends Engine {
                     );
                 }
             }
-            this.player.update()
         }
         
 
