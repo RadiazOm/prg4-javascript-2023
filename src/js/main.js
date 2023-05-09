@@ -3,12 +3,7 @@ import { Resources, ResourceLoader } from "./resources.js";
 import { Player } from "./player.js";
 
 
-let tilemap;
-let player;
-let trees = [];
-let gameover = false;
-let self;
-let frame
+
 
 export class Game extends Engine {
   tilemap;
@@ -24,8 +19,7 @@ export class Game extends Engine {
   }
 
   startGame() {
-    self = this;
-    tilemap = new TileMap({
+    this.tilemap = new TileMap({
       rows: 100,
       columns: 120,
       tileWidth: 64,
@@ -61,8 +55,6 @@ export class Game extends Engine {
       this.trees.push(tree);
       this.add(tree);
 
-      frame = new FrameStats
-
     }
 
     this.input.keyboard.on("press", (e) => {this.player.keyPressed(e)});
@@ -72,9 +64,9 @@ export class Game extends Engine {
   }
 
   gameOver() {
-    gameover = true
-    player.vel.x = 0;
-    tilemap.vel.y = 0;
+    this.gameover = true
+    this.player.vel.x = 0;
+    this.tilemap.vel.y = 0;
     // this.input.keyboard.off("press");
     // this.input.keyboard.off("release");
     for (const tree of trees) {
@@ -89,7 +81,7 @@ export class Game extends Engine {
             unit: FontUnit.Px
         })
     });
-    self.add(label);
+    this.add(label);
   }
 
   onPostDraw() {
@@ -107,7 +99,6 @@ export class Game extends Engine {
             }
             this.player.update()
         }
-        let frames = new FrameStats
         
 
     }
