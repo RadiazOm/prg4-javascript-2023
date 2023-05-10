@@ -34,8 +34,9 @@ export class Collectable extends Actor {
             maxSize: 10,
             minSize: 1,
             particleColor: new Color(255, 0, 0),
-            isEmitting: true
+            isEmitting: false
         })
+        this.game.add(this.particle)
      }
 
      update() {
@@ -46,18 +47,17 @@ export class Collectable extends Actor {
             this.game.screen.drawHeight
             );
         }
-        if (this.hit) {
-            this.particle.pos = this.pos
-        }
+        this.particle.pos = this.pos
     }
 
     explode() {
+        this.particle.isEmitting = true
         this.timeAlive = new Timer({
-            fcn: () => this.hit = false,
+            fcn: () => this.particle.isEmitting = false,
             repeats: false,
-            interval: 100,
+            interval: 200,
         })
-        this.hit = true
-        this.game.add(this.particle)
+        this.game.add(this.timeAlive);
+        this.timeAlive.start()
     }
 }
