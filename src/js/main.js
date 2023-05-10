@@ -93,9 +93,11 @@ export class Game extends Engine {
     });
     if (localStorage.getItem('highscore')){
       if (this.score > localStorage.getItem('highscore')) {
-        localStorage.setItem('highscore', this.score)
+        localStorage.setItem('highscore', this.score);
       }
-      label.text = `Highscore: ${localStorage.getItem('highscore')}. Your score: ${this.score}`
+      label.text = `Highscore: ${localStorage.getItem('highscore')}. Your score: ${this.score}`;
+    } else {
+      localStorage.setItem('highscore', this.score);
     }
     this.add(label);
   }
