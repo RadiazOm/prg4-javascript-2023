@@ -33,7 +33,7 @@ export class Game extends Engine {
 
   startGame() {
     // Background initialization
-    this.backgroundSpawner = new BackgroundSpawner(this)
+    this.backgroundSpawner = new BackgroundSpawner()
     this.add(this.backgroundSpawner)
 
     // Player initialization
@@ -73,9 +73,7 @@ export class Game extends Engine {
   gameOver() {
     this.gameover = true
     this.player.vel.x = 0;
-    for (const map of this.backgroundSpawner.maps) {
-      map.vel.y = 0
-    }
+    this.backgroundSpawner.vel.y = 0;
     this.collectable.vel.y = 0
     this.input.keyboard.off("press");
     this.input.keyboard.off("release");
