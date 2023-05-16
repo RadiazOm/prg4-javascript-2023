@@ -9,8 +9,10 @@ export class Background extends Actor {
             height: Resources.Straight.height
         })
         this.graphics.use(Resources.Straight.toSprite())
-        this.anchor = new Vector(0, 0)
+        this.anchor = new Vector(0, 0.5)
 
+        
+        this.vel = new Vector(0, -100);
     }
 
 }

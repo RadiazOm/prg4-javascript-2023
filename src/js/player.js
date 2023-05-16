@@ -19,7 +19,7 @@ export class Player extends Actor {
         this.graphics.use(Resources.Ski.toSprite());
         this.pos = new Vector(Xpos, 100);
         this.scale = new Vector(1, 1);
-        // this.on("collisionstart", (e) => this.OnCollision(e))
+        this.on("collisionstart", (e) => this.OnCollision(e))
     }
 
     OnCollision(e) {

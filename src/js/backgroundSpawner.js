@@ -3,42 +3,39 @@ import { Resources, ResourceLoader } from "./resources.js";
 import { Background } from "./background.js";
 
 export class BackgroundSpawner extends Actor{
-
+    maps = [];
     game;
     constructor(game) {
         super()
         this.game = game
-        this.anchor = new Vector(0, 0)
         for (let i = 0; i < 3; i++) {
             const map = new Background()
-            map.pos = new Vector(i * 20,i * 256)
-  
-            this.addChild(map)
+            map.pos = new Vector(0,0)
+            if (this.maps.length > 0) {
+                map.pos.x = 0
+                map.pos.y = this.maps[i - 1].height + this.maps[i - 1].pos.y
+            }
+            this.maps.push(map)
+            this.game.add(map)
         }
-
-        this.vel = new Vector(0,-100)
     }
 
-    onPostUpdate(){
-        console.log(this.children.length)
+    onPostUpdate() {
+        let highestYvalue = -Infinity;
+        let changedMap;
+        for (const map of this.maps){
+            if (map.pos.y <= 0) {
+                changedMap = map;
+            }
+            if (highestYvalue < map.pos.y) {
+                highestYvalue = map.pos.y;
+            }   
+        }
+        console.log(changedMap)
+        if (changedMap !== undefined) {
+            console.log(highestYvalue)
+            changedMap.pos.y = highestYvalue + this.maps[0].height;
+        }
     }
-
-    // onPostUpdate() {
-    //     let highestYvalue = -Infinity;
-    //     let changedMap;
-    //     for (const map of this.maps){
-    //         if (map.pos.y <= 0) {
-    //             changedMap = map;
-    //         }
-    //         if (highestYvalue < map.pos.y) {
-    //             highestYvalue = map.pos.y;
-    //         }   
-    //     }
-    //     console.log(changedMap)
-    //     if (changedMap !== undefined) {
-    //         console.log(highestYvalue)
-    //         changedMap.pos.y = highestYvalue + this.maps[0].height;
-    //     }
-    // }
 
 }
