@@ -6,7 +6,7 @@ export class Tree extends Actor {
     game
     constructor(game) {
         super({
-            width: Resources.Tree.width - 5,
+            width: Resources.Tree.width - 10,
             height: Resources.Tree.height
           })
           this.game = game
