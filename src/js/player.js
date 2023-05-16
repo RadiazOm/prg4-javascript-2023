@@ -2,7 +2,6 @@ import { Actor, Resource, Vector } from "excalibur";
 import { Resources } from "./resources.js";
 
 export class Player extends Actor {
-    sprite = [Resources.Ski.image, Resources.Fish.image]
     direction = new Vector(0, 0)
     game;
     turningRadius = 0.5;
@@ -19,8 +18,8 @@ export class Player extends Actor {
         this.game = game;
         this.graphics.use(Resources.Ski.toSprite());
         this.pos = new Vector(Xpos, 100);
-        this.scale = new Vector(3, 3);
-        this.on("collisionstart", (e) => this.OnCollision(e))
+        this.scale = new Vector(1, 1);
+        // this.on("collisionstart", (e) => this.OnCollision(e))
     }
 
     OnCollision(e) {

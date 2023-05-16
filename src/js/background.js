@@ -2,29 +2,15 @@ import { Actor, Engine, Vector, Label, Color, Font, FontUnit,  TileMap, DisplayM
 import { Resources, ResourceLoader } from "./resources.js";
 
 
-export class Background extends TileMap {
+export class Background extends Actor {
     constructor() {
         super({
-            rows: 100,
-            columns: 120,
-            tileWidth: 64,
-            tileHeight: 64,
+            width: Resources.Straight.width,
+            height: Resources.Straight.height
         })
+        this.graphics.use(Resources.Straight.toSprite())
+        this.anchor = new Vector(0, 0)
 
-        for (let cell of this.tiles) {
-        const sprite = Resources.Snow.toSprite();
-        sprite.scale = new Vector(4, 4)
-        if (sprite) {
-            cell.addGraphic(sprite);
-        }
-        }
-        this.vel = new Vector(0, -100);
-    }
-
-    update() {
-        if (this.pos.y < -320) {
-            this.pos = new Vector(0, 0);
-        }
     }
 
 }
