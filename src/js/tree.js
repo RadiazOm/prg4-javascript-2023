@@ -12,19 +12,19 @@ export class Tree extends Actor {
           this.game = game
           this.graphics.use(Resources.Tree.toSprite());
           this.pos = new Vector(
-            Math.random() * this.game.screen.drawWidth,
-            Math.random() * (this.game.screen.drawHeight - 200) + 401
+            Math.random() * (this.game.screen.drawWidth - 64) + 32,
+            Math.random() * (this.game.screen.drawHeight) + this.game.screen.drawHeight
           );
           this.vel = new Vector(0, -100);
-          this.scale = new Vector(2, 2);
+          this.scale = new Vector(1, 1);
           this.addTag('tree')
     }
 
     update() {
         if (this.pos.y < -20) {
             this.pos = new Vector(
-            Math.random() * this.game.screen.drawWidth,
-            this.game.screen.drawHeight
+            Math.random() * (this.game.screen.drawWidth - 64) + 32,
+            this.game.screen.drawHeight + 20
             );
         }
     }

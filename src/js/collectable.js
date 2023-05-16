@@ -14,11 +14,11 @@ export class Collectable extends Actor {
         this.game = game;
         this.graphics.use(Resources.Snowman.toSprite());
         this.pos = new Vector(
-            Math.random() * this.game.screen.drawWidth,
-            Math.random() * (this.game.screen.drawHeight - 200) + 401
-        );
+            Math.random() * (this.game.screen.drawWidth - 64) + 64,
+            Math.random() * (this.game.screen.drawHeight) + this.game.screen.drawHeight
+          );
         this.vel = new Vector(0, -100);   
-        this.scale = new Vector(2, 2);
+        this.scale = new Vector(1, 1);
         this.addTag('collectable')
         this.particle = new ParticleEmitter({
             emitterType: EmitterType.Circle,
@@ -43,7 +43,7 @@ export class Collectable extends Actor {
         if (this.pos.y < -20) {
             this.graphics.visible = true
             this.pos = new Vector(
-            Math.random() * this.game.screen.drawWidth,
+            Math.random() * (this.game.screen.drawWidth - 64) + 32,
             this.game.screen.drawHeight
             );
         }

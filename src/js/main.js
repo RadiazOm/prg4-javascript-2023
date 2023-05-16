@@ -41,7 +41,7 @@ export class Game extends Engine {
     this.add(this.player);
 
     // Trees initialization
-    for (let i = 0; i < 8; i++) {
+    for (let i = 0; i < 12; i++) {
       const tree = new Tree(this)
       this.trees.push(tree);
       this.add(tree);
