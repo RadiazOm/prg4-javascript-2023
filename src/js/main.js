@@ -40,18 +40,10 @@ export class Game extends Engine {
     this.background = new Background(this.treeSpawner);
     this.add(this.background);
 
-    
 
     // Player initialization
     this.player = new Player(200, this);
     this.add(this.player);
-
-    // Trees initialization
-    for (let i = 0; i < 0; i++) {
-      const tree = new Tree(this);
-      this.trees.push(tree);
-      this.add(tree);
-    }
 
     // // Collectable initialization
     this.collectable = new Collectable(this);
@@ -87,7 +79,7 @@ export class Game extends Engine {
     this.collectable.vel.y = 0
     this.input.keyboard.off("press");
     this.input.keyboard.off("release");
-    for (const tree of this.trees) {
+    for (const tree of this.treeSpawner.treeLines) {
         tree.vel.y = 0;
     }
     const label = new Label({
