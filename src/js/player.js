@@ -1,5 +1,7 @@
 import { Actor, Resource, Vector } from "excalibur";
 import { Resources } from "./resources.js";
+import { TreeSpawner } from "./treeSpawner.js";
+import { TreeLine } from "./treeLine.js";
 
 export class Player extends Actor {
     direction = new Vector(0, 0)
@@ -32,6 +34,9 @@ export class Player extends Actor {
             e.other.graphics.visible = false;
             e.other.explode();
         }
+        if (e.other instanceof TreeLine) {
+            this.game.gameOver()
+        }
     }
 
     keyPressed(e) {
@@ -61,6 +66,7 @@ export class Player extends Actor {
             }
             this.vel.x = (this.rotation - ((this.rotation > this.turningRadius) * Math.PI * 2)) * this.strafingSpeed
             if (this.pos.x > this.game.screen.drawWidth - 48) {
+                
                 this.pos.x = this.game.screen.drawWidth - 48
             }
             if (this.pos.x < 48) {

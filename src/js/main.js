@@ -5,7 +5,7 @@ import { Background } from "./background.js";
 import { Tree } from "./tree.js";
 import { Collectable } from "./collectable.js";
 import { FloatingText } from "./FloatingText.js";
-import { BackgroundSpawner } from "./backgroundSpawner.js";
+import { TreeSpawner } from "./treeSpawner.js";
 
 
 
@@ -17,39 +17,49 @@ export class Game extends Engine {
   score = 0;
   trees = [];
   gameover = false;
+  background;
+  treeSpawner;
   collectable;
   UIScore;
 
   constructor() {
-    super({ width: 250,
-            height: 250,
+    super({ width: 256,
+            height: 256,
             displayMode: DisplayMode.FitScreen
         });
-        this.showDebug(false)
+        this.showDebug(true)
         this.maxFps = 60;
     this.start(ResourceLoader).then(() => this.startGame());
 
   }
 
   startGame() {
+
+        
     // Background initialization
-    this.backgroundSpawner = new BackgroundSpawner()
-    this.add(this.backgroundSpawner)
+    this.background = new Background(this.treeSpawner);
+    this.add(this.background);
+
+    
 
     // Player initialization
     this.player = new Player(200, this);
     this.add(this.player);
 
     // Trees initialization
-    for (let i = 0; i < 12; i++) {
-      const tree = new Tree(this)
+    for (let i = 0; i < 0; i++) {
+      const tree = new Tree(this);
       this.trees.push(tree);
       this.add(tree);
     }
 
     // // Collectable initialization
-    this.collectable = new Collectable(this)
-    this.add(this.collectable)
+    this.collectable = new Collectable(this);
+    this.add(this.collectable);
+
+    // Tree spawner
+    this.treeSpawner = new TreeSpawner(this);
+    this.add(this.treeSpawner);
 
     // Score initialization
     this.UIScore = new Label({
@@ -61,19 +71,19 @@ export class Game extends Engine {
           unit: FontUnit.Px
       })
     });
-    this.add(this.UIScore)
+    this.add(this.UIScore);
 
   }
 
   showText(pos, text){
-    const label = new FloatingText(pos, text, 2000, this.player, this)
-    this.add(label)
+    const label = new FloatingText(pos, text, 2000, this.player, this);
+    this.add(label);
   }
 
   gameOver() {
     this.gameover = true
     this.player.vel.x = 0;
-    this.backgroundSpawner.vel.y = 0;
+    this.background.vel.y = 0;
     this.collectable.vel.y = 0
     this.input.keyboard.off("press");
     this.input.keyboard.off("release");
