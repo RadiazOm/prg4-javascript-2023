@@ -128,10 +128,10 @@ export class TreeSpawner extends Actor{
     update() {
         for (const treeLine of this.treeLines) {
             if (treeLine.pos.y < -this.game.screen.drawHeight / 3 * 2 - treeLine.height) {
+                console.log('new treeline')
                 treeLine.kill()
                 this.treeLines.splice(this.treeLines.indexOf(treeLine), 1)
                 let treelineChance = Math.round(Math.random() * this.treeLines.length)
-                console.log(treelineChance)
                 let newTreeline = new TreeLine(this.treeCollisions[treelineChance].getColliders(), this.treeLineImages[treelineChance], new Vector(this.game.screen.drawWidth / 2, this.game.screen.drawHeight))
                 this.treeLines.push(newTreeline)
                 this.game.add(newTreeline)

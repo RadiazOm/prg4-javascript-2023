@@ -7,8 +7,8 @@ export class Player extends Actor {
     direction = new Vector(0, 0)
     game;
     turningRadius = 0.5;
-    turningSpeed = 0.015 / 2
-    strafingSpeed = 800 / 2
+    turningSpeed = 0.0015
+    strafingSpeed = 400
 
     constructor(Xpos, game) {
         super({
@@ -60,13 +60,12 @@ export class Player extends Actor {
     update() {
         if (this.game.gameover == false) {
             if (this.rotation <= this.turningRadius) {
-                this.rotation = Math.min(this.turningRadius, this.rotation + this.direction.x * this.turningSpeed)
+                this.rotation = Math.min(this.turningRadius, this.rotation + this.direction.x * this.turningSpeed * this.game.clock.elapsed())
             } else if (this.rotation >= Math.PI * 2 - this.turningRadius ) {
-                this.rotation = Math.max(Math.PI * 2 - this.turningRadius , this.rotation + this.direction.x * this.turningSpeed)
+                this.rotation = Math.max(Math.PI * 2 - this.turningRadius , this.rotation + this.direction.x * this.turningSpeed * this.game.clock.elapsed())
             }
             this.vel.x = (this.rotation - ((this.rotation > this.turningRadius) * Math.PI * 2)) * this.strafingSpeed
             if (this.pos.x > this.game.screen.drawWidth - 48) {
-                
                 this.pos.x = this.game.screen.drawWidth - 48
             }
             if (this.pos.x < 48) {

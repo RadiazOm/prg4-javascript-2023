@@ -1,4 +1,4 @@
-import { Actor, Engine, Vector, Label, Color, Font, FontUnit,  TileMap, DisplayMode, FrameStats} from "excalibur";
+import { Actor, Engine, Vector, Label, Color, Font, FontUnit,  TileMap, DisplayMode, FrameStats, SpriteSheet, SpriteFont} from "excalibur";
 import { Resources, ResourceLoader } from "./resources.js";
 import { Player } from "./player.js";
 import { Background } from "./background.js";
@@ -21,14 +21,15 @@ export class Game extends Engine {
   treeSpawner;
   collectable;
   UIScore;
+  spriteFont;
 
   constructor() {
     super({ width: 256,
             height: 256,
+            maxFps: 144,
             displayMode: DisplayMode.FitScreen
         });
-        this.showDebug(false)
-        this.maxFps = 60;
+        this.showDebug(true)
     this.start(ResourceLoader).then(() => this.startGame());
 
   }
@@ -53,15 +54,28 @@ export class Game extends Engine {
     this.treeSpawner = new TreeSpawner(this);
     this.add(this.treeSpawner);
 
-    // Score initialization
+    // Score initialization    
+    const spriteFontSheet = SpriteSheet.fromImageSource({
+      image: Resources.Fontmap,
+      grid: {
+        rows: 4,
+        columns: 12,
+        spriteWidth: 16,
+        spriteHeight: 16,
+      },
+    })
+
+    this.spriteFont = new SpriteFont({
+      alphabet: '0123456789: ABCDEFGHIJKLMNOPQRSTUVWXYZ!#$%+-*/=.',
+      caseInsensitive: true,
+      spriteSheet: spriteFontSheet,
+      spacing: 0,
+    })
+
     this.UIScore = new Label({
-      text: `Score: ${this.score}`,
-      pos: new Vector(10, 20),
-      font: new Font({
-          family: 'impact',
-          size: 12,
-          unit: FontUnit.Px
-      })
+      text: `Score:${Math.ceil(this.score)}`,
+      pos: new Vector(5, 5),
+      font: this.spriteFont
     });
     this.add(this.UIScore);
 
@@ -83,29 +97,29 @@ export class Game extends Engine {
         tree.vel.y = 0;
     }
     const label = new Label({
-        text: `Game Over. Your score was ${this.score}`,
-        pos: new Vector(20, this.screen.drawHeight / 2),
-        font: new Font({
-            family: 'impact',
-            size: 12,
-            unit: FontUnit.Px
-        })
+        text: `Game Over. Your score was:
+${Math.ceil(this.score)}`,
+        anchor: new Vector(1, 0.5),
+        pos: new Vector(0, this.screen.drawHeight / 2),
+        font: this.spriteFont
     });
     if (localStorage.getItem('highscore')){
-      if (this.score > localStorage.getItem('highscore')) {
-        localStorage.setItem('highscore', this.score);
+      if (Math.ceil(this.score) > localStorage.getItem('highscore')) {
+        localStorage.setItem('highscore', Math.ceil(this.score));
       }
-      label.text = `Highscore: ${localStorage.getItem('highscore')}. Your score: ${this.score}`;
+      label.text = `Highscore:${localStorage.getItem('highscore')}
+
+Your score:${Math.ceil(this.score)}`;
     } else {
-      localStorage.setItem('highscore', this.score);
+      localStorage.setItem('highscore', Math.ceil(this.score));
     }
     this.add(label);
   }
 
   onPostDraw() {
     if (this.gameover == false) {
-        this.score++
-        this.UIScore.text = `Score: ${this.score}`
+        this.score += this.clock.elapsed() / 10
+        this.UIScore.text = `Score:${Math.ceil(this.score)}`
     }
   }
 }

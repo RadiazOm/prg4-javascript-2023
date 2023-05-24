@@ -10,6 +10,11 @@ body {
     animation: 12s swimming linear infinite;
 }
 
+@font-face {
+    font-family: ArcadeClassic;
+    src: url(./fonts/ARCADECLASSIC.TTF);
+}
+
 @keyframes swimming {
     0% {
         translate: 300px 100px;
