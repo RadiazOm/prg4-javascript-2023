@@ -1,15 +1,11 @@
-# Javascript Startproject 2023
+# Very cool skiing game for my programming class
 
-Oefening week 1: Modern Web Development
+This game is a game I made for my programming class in order to get a good grade (hopefully a 10).
+Give me good review so I can 10 for my class thank you
 
-- Klik op USE THIS TEMPLATE. Kies als owner jouw eigen github account. 
-- Geef het project een coole naam en check dat dit startproject nu in je eigen github staat.
-- CLONE de repository van jouw eigen github naar je lokale computer via de git url. Die vind je onder "code".
-- Open VS Code. Klik het "Source Control" icoontje. Kies voor "clone repository" en plak de git url.
-- VS Code haalt nu het startproject op en opent het automatisch.
-- Kies een map die je ook via localhost kan openen, bijvoorbeeld `xampp/htdocs/mijnproject`.
-- Typ `npm install` en `npm run dev` in de terminal in VS Code.
-
-[🔥 Bekijk het instructie filmpje!](https://youtu.be/UIVpe4L5_P4)
-
-[Lees verder over het publiceren op github pages](https://github.com/HR-CMGT/PRG04-2022-2023/blob/main/setup.md)
+# How to play
+- Use 'a' and 'd' buttons on your keyboard to move
+- Dodge the trees
+- Go as far as possible
+- Collect the snowmen to get an extra 100 points
+- Beat your highscore!
