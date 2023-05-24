@@ -29,7 +29,7 @@ export class Game extends Engine {
             maxFps: 144,
             displayMode: DisplayMode.FitScreen
         });
-        this.showDebug(true)
+        this.showDebug(false)
     this.start(ResourceLoader).then(() => this.startGame());
 
   }
