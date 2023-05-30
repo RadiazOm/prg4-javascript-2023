@@ -10,12 +10,7 @@ export class FloatingText extends Label {
         super({
             text: text,
             pos: pos,
-            color: new Color(0, 205, 50),
-            font: new Font({
-                family: 'impact',
-                size: 16,
-                unit: FontUnit.Px
-            })
+            font: game.spriteFont
         })
         this.timeAlive = new Timer({
             fcn: () => this.kill(),

@@ -11,5 +11,6 @@ export class TreeLine extends Actor {
         this.collider.useCompositeCollider(CompositeCollider)
         this.pos = pos
         this.vel = new Vector(0, -100)
+        this.z = -1
     }
 }

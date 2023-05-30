@@ -6,6 +6,7 @@ import { Tree } from "./tree.js";
 import { Collectable } from "./collectable.js";
 import { FloatingText } from "./FloatingText.js";
 import { TreeSpawner } from "./treeSpawner.js";
+import { UI } from "./UI.js";
 
 
 
@@ -21,6 +22,7 @@ export class Game extends Engine {
   treeSpawner;
   collectable;
   UIScore;
+  UI;
   spriteFont;
 
   constructor() {
@@ -29,13 +31,16 @@ export class Game extends Engine {
             maxFps: 144,
             displayMode: DisplayMode.FitScreen
         });
+        this.setAntialiasing(false)
         this.showDebug(false)
     this.start(ResourceLoader).then(() => this.startGame());
 
   }
 
   startGame() {
-
+    // Score initialization  
+    this.UI = new UI()
+    this.add(this.UI)
         
     // Background initialization
     this.background = new Background(this.treeSpawner);
@@ -54,31 +59,6 @@ export class Game extends Engine {
     this.treeSpawner = new TreeSpawner(this);
     this.add(this.treeSpawner);
 
-    // Score initialization    
-    const spriteFontSheet = SpriteSheet.fromImageSource({
-      image: Resources.Fontmap,
-      grid: {
-        rows: 4,
-        columns: 12,
-        spriteWidth: 16,
-        spriteHeight: 16,
-      },
-    })
-
-    this.spriteFont = new SpriteFont({
-      alphabet: '0123456789: ABCDEFGHIJKLMNOPQRSTUVWXYZ!#$%+-*/=.',
-      caseInsensitive: true,
-      spriteSheet: spriteFontSheet,
-      spacing: 0,
-    })
-
-    this.UIScore = new Label({
-      text: `Score:${Math.ceil(this.score)}`,
-      pos: new Vector(5, 5),
-      font: this.spriteFont
-    });
-    this.add(this.UIScore);
-
   }
 
   showText(pos, text){
@@ -96,31 +76,31 @@ export class Game extends Engine {
     for (const tree of this.treeSpawner.treeLines) {
         tree.vel.y = 0;
     }
-    const label = new Label({
-        text: `Game Over. Your score was:
-${Math.ceil(this.score)}`,
-        anchor: new Vector(1, 0.5),
-        pos: new Vector(0, this.screen.drawHeight / 2),
-        font: this.spriteFont
-    });
-    if (localStorage.getItem('highscore')){
-      if (Math.ceil(this.score) > localStorage.getItem('highscore')) {
-        localStorage.setItem('highscore', Math.ceil(this.score));
-      }
-      label.text = `Highscore:${localStorage.getItem('highscore')}
+//     const label = new Label({
+//         text: `Game Over. Your score was:
+// ${Math.ceil(this.score)}`,
+//         anchor: new Vector(1, 0.5),
+//         pos: new Vector(0, this.screen.drawHeight / 2),
+//         font: this.spriteFont
+//     });
+//     if (localStorage.getItem('highscore')){
+//       if (Math.ceil(this.score) > localStorage.getItem('highscore')) {
+//         localStorage.setItem('highscore', Math.ceil(this.score));
+//       }
+//       label.text = `Highscore:${localStorage.getItem('highscore')}
 
-Your score:${Math.ceil(this.score)}`;
-    } else {
-      localStorage.setItem('highscore', Math.ceil(this.score));
-    }
-    this.add(label);
+// Your score:${Math.ceil(this.score)}`;
+//     } else {
+//       localStorage.setItem('highscore', Math.ceil(this.score));
+//     }
+//     this.add(label);
   }
 
   onPostDraw() {
-    if (this.gameover == false) {
-        this.score += this.clock.elapsed() / 10
-        this.UIScore.text = `Score:${Math.ceil(this.score)}`
-    }
+    // if (this.gameover == false) {
+    //     this.score += this.clock.elapsed() / 10
+    //     this.UIScore.text = `Score:${Math.ceil(this.score)}`
+    // }
   }
 }
 
