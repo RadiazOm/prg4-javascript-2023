@@ -10,6 +10,7 @@ export class Background extends Actor{
         this.treeSpawner = treeSpawner
         this.straightImage = Resources.Straight.toSprite()
         this.anchor = new Vector(0, 0)
+        this.z = -2
 
         const group = new GraphicsGroup({
             members: [

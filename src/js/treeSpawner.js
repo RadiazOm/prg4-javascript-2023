@@ -12,8 +12,9 @@ export class TreeSpawner extends Actor{
     treeImage = Resources.Tree.toSprite()
 
     constructor(game) {
-        super()
+        super({z:9})
         this.game = game
+        this.z = 9
         this.treeLineImages.push(new GraphicsGroup({
             members: [
                 {
@@ -120,7 +121,7 @@ export class TreeSpawner extends Actor{
         // this.vel = new Vector(0, -100)
         for (let i = 0; i < 2; i++) {
             this.treeLines.push(new TreeLine(this.createCompositeCollider(i).getColliders(), this.treeLineImages[i], new Vector(this.game.screen.drawWidth / 2, this.game.screen.drawHeight * (i + 1))))
-            this.game.add(this.treeLines[i])
+            this.addChild(this.treeLines[i])
         }
     }
 
@@ -140,7 +141,7 @@ export class TreeSpawner extends Actor{
                     Shape.Box(this.treeImage.width * 5, this.treeImage.height, new Vector(0, 0), new Vector(-this.treeImage.width * 5, this.game.screen.drawHeight / 3)),
                     Shape.Box(this.treeImage.width * 5, this.treeImage.height, new Vector(0, 0), new Vector(0, this.game.screen.drawHeight / 3 * 2))
                 ])
-        }
+            }
     }
 
     update() {
@@ -152,7 +153,7 @@ export class TreeSpawner extends Actor{
                 let treelineChance = Math.round(Math.random() * this.treeLines.length)
                 let newTreeline = new TreeLine(this.createCompositeCollider(treelineChance).getColliders(), this.treeLineImages[treelineChance], new Vector(this.game.screen.drawWidth / 2, this.game.screen.drawHeight))
                 this.treeLines.push(newTreeline)
-                this.game.add(newTreeline)
+                this.addChild(newTreeline)
             }
         }
     }
