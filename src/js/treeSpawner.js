@@ -121,7 +121,7 @@ export class TreeSpawner extends Actor{
         // this.vel = new Vector(0, -100)
         for (let i = 0; i < 2; i++) {
             this.treeLines.push(new TreeLine(this.createCompositeCollider(i).getColliders(), this.treeLineImages[i], new Vector(this.game.screen.drawWidth / 2, this.game.screen.drawHeight * (i + 1))))
-            this.addChild(this.treeLines[i])
+            this.game.add(this.treeLines[i])
         }
     }
 
@@ -153,7 +153,7 @@ export class TreeSpawner extends Actor{
                 let treelineChance = Math.round(Math.random() * this.treeLines.length)
                 let newTreeline = new TreeLine(this.createCompositeCollider(treelineChance).getColliders(), this.treeLineImages[treelineChance], new Vector(this.game.screen.drawWidth / 2, this.game.screen.drawHeight))
                 this.treeLines.push(newTreeline)
-                this.addChild(newTreeline)
+                this.game.add(newTreeline)
             }
         }
     }
