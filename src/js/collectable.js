@@ -5,7 +5,6 @@ import { Resources, ResourceLoader } from "./resources.js";
 export class Collectable extends Actor {
     game;
     particles;
-    hit = false;
     constructor(game) {
         super({
             width: Resources.Snowman.width,
