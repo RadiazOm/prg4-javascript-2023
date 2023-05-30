@@ -2,11 +2,11 @@ import { Actor, Engine, Vector, Label, Color, Font, FontUnit,  TileMap, DisplayM
 import { Resources, ResourceLoader } from "./resources.js";
 import { Player } from "./player.js";
 import { Background } from "./background.js";
-import { Tree } from "./tree.js";
 import { Collectable } from "./collectable.js";
 import { FloatingText } from "./FloatingText.js";
 import { TreeSpawner } from "./treeSpawner.js";
-import { UI } from "./UI.js";
+import { Score } from "./score.js";
+import { GameOverScreen } from "./gameOverUI.js";
 
 
 
@@ -18,11 +18,11 @@ export class Game extends Engine {
   score = 0;
   trees = [];
   gameover = false;
+  gameOverScreen;
   background;
   treeSpawner;
   collectable;
   UIScore;
-  UI;
   spriteFont;
 
   constructor() {
@@ -39,8 +39,8 @@ export class Game extends Engine {
 
   startGame() {
     // Score initialization  
-    this.UI = new UI()
-    this.add(this.UI)
+    this.UIScore = new Score(this.score)
+    this.add(this.UIScore)
         
     // Background initialization
     this.background = new Background(this.treeSpawner);
@@ -48,7 +48,7 @@ export class Game extends Engine {
 
 
     // Player initialization
-    this.player = new Player(200, this);
+    this.player = new Player(this);
     this.add(this.player);
 
     // // Collectable initialization
@@ -61,8 +61,9 @@ export class Game extends Engine {
 
   }
 
-  showText(pos, text){
-    const label = new FloatingText(pos, text, 2000, this.player, this);
+  showText(score){
+    this.UIScore.updateScore(score)
+    const label = new FloatingText(score, 100, this.player, this);
     this.add(label);
   }
 
@@ -73,34 +74,54 @@ export class Game extends Engine {
     this.collectable.vel.y = 0
     this.input.keyboard.off("press");
     this.input.keyboard.off("release");
+    this.player.direction.x = 0
     for (const tree of this.treeSpawner.treeLines) {
         tree.vel.y = 0;
     }
-//     const label = new Label({
-//         text: `Game Over. Your score was:
-// ${Math.ceil(this.score)}`,
-//         anchor: new Vector(1, 0.5),
-//         pos: new Vector(0, this.screen.drawHeight / 2),
-//         font: this.spriteFont
-//     });
-//     if (localStorage.getItem('highscore')){
-//       if (Math.ceil(this.score) > localStorage.getItem('highscore')) {
-//         localStorage.setItem('highscore', Math.ceil(this.score));
-//       }
-//       label.text = `Highscore:${localStorage.getItem('highscore')}
+    this.gameOverScreen = new GameOverScreen(this.UIScore.score, this)
+    this.add(this.gameOverScreen)
+  }
 
-// Your score:${Math.ceil(this.score)}`;
-//     } else {
-//       localStorage.setItem('highscore', Math.ceil(this.score));
-//     }
-//     this.add(label);
+  retry() {
+    // Config reset
+    this.gameover = false
+    this.UIScore.score = 0
+    // Player reset
+    this.player.pos.x = this.screen.drawWidth / 2
+    this.player.rotation = 0
+    // Background reset
+    this.background.vel.y = -100
+    this.background.pos = new Vector(0, 0)
+    // Collectable reset
+    this.collectable.vel.y = -100
+    this.collectable.pos = new Vector(
+      Math.random() * (this.screen.drawWidth - 64) + 64,
+      Math.random() * (this.screen.drawHeight) + this.screen.drawHeight
+    );
+    this.collectable.graphics.visible = true
+    // Input reset
+    this.input.keyboard.off("press")
+    this.input.keyboard.on("press", (e) => this.player.keyPressed(e));
+    this.input.keyboard.on("release", (e) => this.player.keyReleased(e));
+    if (this.input.keyboard.isHeld('KeyA')) {
+      this.player.direction.x = -1
+    } else if (this.input.keyboard.isHeld('KeyD')) {
+      this.player.direction.x = 1
+    }
+    // Trees reset
+    for (let i = 0; i < this.treeSpawner.treeLines.length; i++) {
+      this.treeSpawner.treeLines[i].vel.y = -100;
+      this.treeSpawner.treeLines[i].pos = new Vector(this.screen.drawWidth / 2, this.screen.drawHeight * (i + 1))
+    }
+    // Screen reset
+    this.gameOverScreen.kill()
+
   }
 
   onPostDraw() {
-    // if (this.gameover == false) {
-    //     this.score += this.clock.elapsed() / 10
-    //     this.UIScore.text = `Score:${Math.ceil(this.score)}`
-    // }
+    if (this.gameover == false) {
+        this.UIScore.updateScore(this.clock.elapsed() / 100)
+    }
   }
 }
 

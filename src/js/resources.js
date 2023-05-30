@@ -7,6 +7,7 @@ import snowmanImage from "../images/tile_0069.png";
 import straightImage from "../images/pixelmap_straightaway.png";
 import fontMap from "../images/tilemap_packed_font.png";
 import titleImage from "../images/TiltePicture.png";
+import retryImage from "../images/RetryButton.png";
 
 const Resources = {
   Fish: new ImageSource(fishImage),
@@ -15,7 +16,8 @@ const Resources = {
   Tree: new ImageSource(treeImage),
   Snowman: new ImageSource(snowmanImage),
   Straight: new ImageSource(straightImage),
-  Fontmap: new ImageSource(fontMap)
+  Fontmap: new ImageSource(fontMap),
+  Retry: new ImageSource(retryImage)
 };
 const ResourceLoader = new Loader([
   Resources.Fish,
@@ -24,7 +26,8 @@ const ResourceLoader = new Loader([
   Resources.Tree,
   Resources.Snowman,
   Resources.Straight,
-  Resources.Fontmap
+  Resources.Fontmap,
+  Resources.Retry
 ]);
 ResourceLoader.logo = titleImage
 ResourceLoader.logoWidth = 256

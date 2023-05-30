@@ -1,6 +1,4 @@
 import { Actor, Engine, Vector, Label, Color, Font, FontUnit,  TileMap, DisplayMode, GraphicsGroup, CompositeCollider, Shape } from "excalibur";
-import { Game } from "./main.js";
-import { Tree } from "./tree.js"
 import { Resources, ResourceLoader } from "./resources.js";
 import { TreeLine } from "./treeLine.js";
 
@@ -147,7 +145,6 @@ export class TreeSpawner extends Actor{
     update() {
         for (const treeLine of this.treeLines) {
             if (treeLine.pos.y < -this.game.screen.drawHeight / 3 * 2 - treeLine.height) {
-                console.log('new treeline')
                 treeLine.kill()
                 this.treeLines.splice(this.treeLines.indexOf(treeLine), 1)
                 let treelineChance = Math.round(Math.random() * this.treeLines.length)

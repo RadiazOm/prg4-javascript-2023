@@ -10,7 +10,7 @@ export class Player extends Actor {
     turningSpeed = 0.0015
     strafingSpeed = 400
 
-    constructor(Xpos, game) {
+    constructor(game) {
         super({
             width: Resources.Ski.width,
             height: Resources.Ski.height
@@ -19,18 +19,15 @@ export class Player extends Actor {
         game.input.keyboard.on("release", (e) =>  this.keyReleased(e));
         this.game = game;
         this.graphics.use(Resources.Ski.toSprite());
-        this.pos = new Vector(Xpos, 100);
+        this.pos = new Vector(this.game.screen.drawWidth / 2, 100);
         this.scale = new Vector(1, 1);
         this.on("collisionstart", (e) => this.OnCollision(e))
     }
 
     OnCollision(e) {
-        console.log(e)
-        if (e.other.tags.includes('tree')){
-            this.game.gameOver()
-        } else if(e.other.tags.includes('collectable')){
+        if(e.other.tags.includes('collectable')){
             this.game.score += 100
-            this.game.showText(this.pos, '+100')
+            this.game.showText(100)
             e.other.graphics.visible = false;
             e.other.explode();
         }

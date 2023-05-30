@@ -1,7 +1,4 @@
-import { Actor, Engine, Vector, Label, Color, Font, FontUnit,  TileMap, DisplayMode, GraphicsGroup, CompositeCollider, Shape } from "excalibur";
-import { Game } from "./main.js";
-import { Tree } from "./tree.js"
-import { Resources, ResourceLoader } from "./resources.js";
+import { Actor, Vector} from "excalibur";
 
 export class TreeLine extends Actor {
     constructor(CompositeCollider, GraphicsGroup, pos) {

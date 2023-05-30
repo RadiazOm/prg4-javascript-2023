@@ -4,19 +4,14 @@ import { Resources, ResourceLoader } from "./resources.js";
 
 export class UI extends ScreenElement { 
 
-    UIScore;
     spriteFont;
 
     constructor() {
         super({
-            x: 10,
-            y: 10,
             z: 0
         })
         this.z =  0
-    }
 
-    onInitialize(engine) {
         const spriteFontSheet = SpriteSheet.fromImageSource({
             image: Resources.Fontmap,
             grid: {
@@ -33,13 +28,5 @@ export class UI extends ScreenElement {
             spriteSheet: spriteFontSheet,
             spacing: 0,
         })
-
-        this.UIScore = new Label({
-            text: `Score:${Math.ceil(this.score)}`,
-            pos: new Vector(5, 5),
-            font: this.spriteFont
-        });
-
-        this.addChild(this.UIScore)
     }
 }
