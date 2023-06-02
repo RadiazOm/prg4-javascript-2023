@@ -21,11 +21,13 @@ export class FloatingText extends UI {
         this.anchor = new Vector(0.5, 0.5)
         this.target = target
     }
+    
 
     onInitialize() {
         this.label = new Label({
             text: `+${this.score}`,
-            pos: new Vector(this.target.pos.x, this.target.pos.y - 40),
+            anchor: new Vector(0.5, 0.5),
+            pos: new Vector(this.target.pos.x - 30, this.target.pos.y - 40),
             vel: new Vector(0, -20),
             font: this.spriteFont
         });

@@ -1,25 +1,16 @@
 body {
     margin: 0;
     padding: 0;
-    background-color: rgb(27, 154, 213);
+    background-color: #eef8fe;
+    display: flex;
+    justify-content: center;
 }
 
-.fish {
-    position: absolute;
-    translate: 300px 100px;
-    animation: 12s swimming linear infinite;
+canvas {
+    margin: 0 auto;
 }
 
 @font-face {
     font-family: ArcadeClassic;
     src: url(./fonts/ARCADECLASSIC.TTF);
-}
-
-@keyframes swimming {
-    0% {
-        translate: 300px 100px;
-    }
-    100% {
-        translate: 0px 100px;
-    }
 }

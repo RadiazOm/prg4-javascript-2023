@@ -103,10 +103,10 @@ export class Game extends Engine {
     this.input.keyboard.off("press")
     this.input.keyboard.on("press", (e) => this.player.keyPressed(e));
     this.input.keyboard.on("release", (e) => this.player.keyReleased(e));
-    if (this.input.keyboard.isHeld('KeyA')) {
-      this.player.direction.x = -1
-    } else if (this.input.keyboard.isHeld('KeyD')) {
+    if (this.input.keyboard.isHeld('KeyA') || this.input.keyboard.isHeld('ArrowLeft')) {
       this.player.direction.x = 1
+    } else if (this.input.keyboard.isHeld('KeyD') || this.input.keyboard.isHeld('ArrowRight')) {
+      this.player.direction.x = -1
     }
     // Trees reset
     for (let i = 0; i < this.treeSpawner.treeLines.length; i++) {

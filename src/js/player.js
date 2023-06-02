@@ -37,22 +37,23 @@ export class Player extends Actor {
     }
 
     keyPressed(e) {
-        if (e.value == "a") {
-            this.direction.x -= 1
+        if (e.value == "a" || e.value == "ArrowLeft") {
+            this.direction.x = Math.min(this.direction.x + 1, 1)
         }
-        if (e.value == "d") {
-            this.direction.x += 1;
+        if (e.value == "d" || e.value == "ArrowRight") {
+            this.direction.x = Math.max(this.direction.x - 1, -1);
         }
     }
 
     keyReleased(e) {
-        if (e.value == "a") {
-            this.direction.x += 1
+        if (e.value == "a" || e.value == "ArrowLeft") {
+            this.direction.x = Math.max(this.direction.x - 1, -1);
         }
-        if (e.value == "d") {
-            this.direction.x -= 1
+        if (e.value == "d" || e.value == "ArrowRight") {
+            this.direction.x = Math.min(this.direction.x + 1, 1)
         }     
     }
+
 
     update() {
         if (this.game.gameover == false) {
@@ -61,7 +62,7 @@ export class Player extends Actor {
             } else if (this.rotation >= Math.PI * 2 - this.turningRadius ) {
                 this.rotation = Math.max(Math.PI * 2 - this.turningRadius , this.rotation + this.direction.x * this.turningSpeed * this.game.clock.elapsed())
             }
-            this.vel.x = (this.rotation - ((this.rotation > this.turningRadius) * Math.PI * 2)) * this.strafingSpeed
+            this.vel.x = -(this.rotation - ((this.rotation > this.turningRadius) * Math.PI * 2)) * this.strafingSpeed
             if (this.pos.x > this.game.screen.drawWidth - 48) {
                 this.pos.x = this.game.screen.drawWidth - 48
             }
@@ -70,4 +71,5 @@ export class Player extends Actor {
             }
         }
     }
+    
 }

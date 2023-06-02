@@ -29,7 +29,7 @@ export class Collectable extends Actor {
             emitRate: 300,
             opacity: 1,
             fadeFlag: true,
-            particleLife: 1000,
+            particleLife: 500,
             maxSize: 10,
             minSize: 1,
             particleColor: new Color(255, 0, 0),
