@@ -5,15 +5,15 @@ import { UI } from "./UI.js";
 export class GameOverScreen extends UI {
 
     score;
-    game;
+    engine;
 
-    constructor(score, game) {
+    constructor(score) {
         super()
         this.score = score
-        this.game = game
     }
 
-    onInitialize() {
+    onInitialize(Engine) {
+      this.engine = Engine
         const label = new Label({
             text: `Game Over. Your score was:
     ${Math.ceil(this.score)}`,
@@ -40,12 +40,12 @@ ${Math.ceil(this.score)}`;
           height: Resources.Retry.height
         })
         button.graphics.use(Resources.Retry.toSprite())
-        this.game.input.keyboard.on('press', (e) => {
+        this.engine.input.keyboard.on('press', (e) => {
           if (e.value === ' ') {
-            this.game.retry()
+            this.engine.retry()
           }
         })
-        button.on('pointerup', () => {this.game.retry()})
+        button.on('pointerup', () => {this.engine.retry()})
         this.addChild(button)
         this.addChild(label);
     }

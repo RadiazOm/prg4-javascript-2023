@@ -10,7 +10,7 @@ export class Score extends UI {
     constructor(score){
         super()
         this.score = score
-    }
+    }w
 
     onInitialize() {
         this.label = new Label({

@@ -2,7 +2,7 @@ import { Actor, Engine, Vector, Label, Color, Font, FontUnit,  TileMap, DisplayM
 import { Resources, ResourceLoader } from "./resources.js";
 import { TreeLine } from "./treeLine.js";
 
-export class TreeSpawner extends Actor{
+export class TreeSpawner {
     game;
     treeLineImages = [];
     treeLines = [];
@@ -10,9 +10,7 @@ export class TreeSpawner extends Actor{
     treeImage = Resources.Tree.toSprite()
 
     constructor(game) {
-        super({z:9})
         this.game = game
-        this.z = 9
         this.treeLineImages.push(new GraphicsGroup({
             members: [
                 {
