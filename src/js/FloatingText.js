@@ -8,22 +8,23 @@ export class FloatingText extends UI {
     score;
     timeAlive;
     lifetime;
-    game;
+    engine;
     flashes = 3;
     hidden = false;
     label;
 
-    constructor(score, lifetime, target, game){
+    constructor(score, lifetime, target, ){
         super()
         this.lifetime = lifetime
-        this.game = game
         this.score = score
-        this.anchor = new Vector(0.5, 0.5)
         this.target = target
     }
     
 
-    onInitialize() {
+    onInitialize(Engine) {
+        this.engine = Engine
+        this.anchor = new Vector(0.5, 0.5)
+
         this.label = new Label({
             text: `+${this.score}`,
             anchor: new Vector(0.5, 0.5),
@@ -49,7 +50,7 @@ export class FloatingText extends UI {
             interval: this.lifetime,
         })
 
-        this.game.add(this.timeAlive)
+        this.engine.add(this.timeAlive)
         this.timeAlive.start()
 
         this.addChild(this.label)

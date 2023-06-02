@@ -3,18 +3,23 @@ import { Game } from "./main.js";
 import { Resources, ResourceLoader } from "./resources.js";
 
 export class Collectable extends Actor {
-    game;
+    
     particles;
-    constructor(game) {
+    engine;
+
+    constructor() {
         super({
             width: Resources.Snowman.width,
             height: Resources.Snowman.height
         });
-        this.game = game;
+     }
+
+     onInitialize(Engine) {
+        this.engine = Engine;
         this.graphics.use(Resources.Snowman.toSprite());
         this.pos = new Vector(
-            Math.random() * (this.game.screen.drawWidth - 64) + 64,
-            Math.random() * (this.game.screen.drawHeight) + this.game.screen.drawHeight
+            Math.random() * (this.engine.screen.drawWidth - 64) + 64,
+            Math.random() * (this.engine.screen.drawHeight) + this.engine.screen.drawHeight
           );
         this.vel = new Vector(0, -100);   
         this.scale = new Vector(1, 1);
@@ -35,16 +40,15 @@ export class Collectable extends Actor {
             particleColor: new Color(255, 0, 0),
             isEmitting: false
         })
-        this.game.add(this.particle)
+        this.engine.add(this.particle)
      }
 
-     update() {
+    onPreUpdate() {
         if (this.pos.y < -20) {
             this.graphics.visible = true
             this.pos = new Vector(
-            Math.random() * (this.game.screen.drawWidth - 64) + 32,
-            this.game.screen.drawHeight
-            );
+            Math.random() * (this.engine.screen.drawWidth - 64) + 32,
+            this.engine.screen.drawHeight);
         }
         this.particle.pos = this.pos
     }
@@ -56,7 +60,7 @@ export class Collectable extends Actor {
             repeats: false,
             interval: 200,
         })
-        this.game.add(this.timeAlive);
+        this.engine.add(this.timeAlive);
         this.timeAlive.start()
     }
 }

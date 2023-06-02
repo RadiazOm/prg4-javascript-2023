@@ -34,7 +34,6 @@ export class Game extends Engine {
         this.setAntialiasing(false)
         this.showDebug(false)
     this.start(ResourceLoader).then(() => this.startGame());
-
   }
 
   startGame() {
@@ -116,6 +115,10 @@ export class Game extends Engine {
     // Screen reset
     this.gameOverScreen.kill()
 
+  }
+
+  onPostUpdate() {
+    this.treeSpawner.update()
   }
 
   onPostDraw() {
