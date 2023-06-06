@@ -116,7 +116,7 @@ export class TreeSpawner {
         // this.anchor = new Vector(0, 0)
         // this.vel = new Vector(0, -100)
         for (let i = 0; i < 2; i++) {
-            this.treeLines.push(new TreeLine(this.createCompositeCollider(i).getColliders(), this.treeLineImages[i], new Vector(this.game.screen.drawWidth / 2, this.game.screen.drawHeight * (i + 1))))
+            this.treeLines.push(new TreeLine(this.createCompositeCollider(i).getColliders(), this.treeLineImages[i], new Vector(this.game.screen.drawWidth / 2, this.game.screen.drawHeight * (i + 1) + this.game.screen.drawHeight)))
             this.game.add(this.treeLines[i])
         }
     }
@@ -129,24 +129,25 @@ export class TreeSpawner {
         switch (_treeline) {
             case 0:
                 return new CompositeCollider([
-                    Shape.Box(this.treeImage.width * 5, this.treeImage.height, new Vector(0, 0), new Vector(0, this.game.screen.drawHeight / 3)),
-                    Shape.Box(this.treeImage.width * 5, this.treeImage.height, new Vector(0, 0), new Vector(-this.treeImage.width * 5, this.game.screen.drawHeight / 3 * 2))
+                    Shape.Box(this.treeImage.width * 5, this.treeImage.height, new Vector(0, 1), new Vector(0, -this.game.screen.drawHeight / 3)),
+                    Shape.Box(this.treeImage.width * 5, this.treeImage.height, new Vector(0, 1), new Vector(-this.treeImage.width * 5, 0))
                 ])
             case 1:
                 return new CompositeCollider([
-                    Shape.Box(this.treeImage.width * 5, this.treeImage.height, new Vector(0, 0), new Vector(-this.treeImage.width * 5, this.game.screen.drawHeight / 3)),
-                    Shape.Box(this.treeImage.width * 5, this.treeImage.height, new Vector(0, 0), new Vector(0, this.game.screen.drawHeight / 3 * 2))
+                    Shape.Box(this.treeImage.width * 5, this.treeImage.height, new Vector(0, 1), new Vector(-this.treeImage.width * 5, -this.game.screen.drawHeight / 3)),
+                    Shape.Box(this.treeImage.width * 5, this.treeImage.height, new Vector(0, 1), new Vector(0, 0))
                 ])
             }
     }
 
     update() {
         for (const treeLine of this.treeLines) {
-            if (treeLine.pos.y < -this.game.screen.drawHeight / 3 * 2 - treeLine.height) {
+            if (treeLine.pos.y < 0) {
+                console.log('new treeline')
                 treeLine.kill()
                 this.treeLines.splice(this.treeLines.indexOf(treeLine), 1)
                 let treelineChance = Math.round(Math.random() * this.treeLines.length)
-                let newTreeline = new TreeLine(this.createCompositeCollider(treelineChance).getColliders(), this.treeLineImages[treelineChance], new Vector(this.game.screen.drawWidth / 2, this.game.screen.drawHeight))
+                let newTreeline = new TreeLine(this.createCompositeCollider(treelineChance).getColliders(), this.treeLineImages[treelineChance], new Vector(this.game.screen.drawWidth / 2, this.game.screen.drawHeight * 2))
                 this.treeLines.push(newTreeline)
                 this.game.add(newTreeline)
             }

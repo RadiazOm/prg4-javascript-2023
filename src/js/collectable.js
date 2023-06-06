@@ -14,8 +14,8 @@ export class Collectable extends Actor {
         });
      }
 
-     onInitialize(Engine) {
-        this.engine = Engine;
+     onInitialize(engine) {
+        this.engine = engine;
         this.graphics.use(Resources.Snowman.toSprite());
         this.pos = new Vector(
             Math.random() * (this.engine.screen.drawWidth - 64) + 64,
@@ -60,7 +60,7 @@ export class Collectable extends Actor {
             repeats: false,
             interval: 200,
         })
-        this.engine.add(this.timeAlive);
+        this.engine.currentScene.add(this.timeAlive);
         this.timeAlive.start()
     }
 }

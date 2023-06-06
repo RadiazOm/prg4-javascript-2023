@@ -1,4 +1,4 @@
-import { Actor, Engine, Vector, Label, Color, Font, FontUnit,  TileMap, DisplayMode, FrameStats, SpriteSheet, SpriteFont} from "excalibur";
+import { Actor, Engine, Vector, Label, Color, Font, FontUnit,  TileMap, DisplayMode, FrameStats, SpriteSheet, SpriteFont, Scene, Timer, Repeat} from "excalibur";
 import { Resources, ResourceLoader } from "./resources.js";
 import { Player } from "./player.js";
 import { Background } from "./background.js";
@@ -11,14 +11,16 @@ import { GameOverScreen } from "./gameOverUI.js";
 
 
 
-export class Game extends Engine {
+export class Game extends Scene {
   // Global variables
+  engine;
   tilemap;
   player;
   score = 0;
   trees = [];
   gameover = false;
   gameOverScreen;
+  gamepad;
   background;
   treeSpawner;
   collectable;
@@ -26,17 +28,11 @@ export class Game extends Engine {
   spriteFont;
 
   constructor() {
-    super({ width: 256,
-            height: 256,
-            maxFps: 144,
-            displayMode: DisplayMode.FitScreen
-        });
-        this.setAntialiasing(false)
-        this.showDebug(false)
-    this.start(ResourceLoader).then(() => this.startGame());
+    super();
   }
 
-  startGame() {
+  onInitialize(engine) {
+    this.engine = engine;
     // Score initialization  
     this.UIScore = new Score(this.score)
     this.add(this.UIScore)
@@ -46,18 +42,22 @@ export class Game extends Engine {
     this.add(this.background);
 
 
-    // Player initialization
-    this.player = new Player(this);
-    this.add(this.player);
-
     // // Collectable initialization
     this.collectable = new Collectable(this);
     this.add(this.collectable);
 
-    // Tree spawner
-    this.treeSpawner = new TreeSpawner(this);
-    this.add(this.treeSpawner);
+    // Player initialization
+    this.player = new Player(this.collectable);
+    this.add(this.player);
 
+    // Tree spawner
+    this.treeSpawner = new TreeSpawner(this.engine);
+    this.add(this.treeSpawner);
+  }
+
+  onActivate(bg) {
+    console.log(bg.data)
+    this.background.pos.y = bg.data - 256
   }
 
   showText(score){
@@ -71,14 +71,22 @@ export class Game extends Engine {
     this.player.vel.x = 0;
     this.background.vel.y = 0;
     this.collectable.vel.y = 0
-    this.input.keyboard.off("press");
-    this.input.keyboard.off("release");
+    this.engine.input.keyboard.off("press");
+    this.engine.input.keyboard.off("release");
     this.player.direction.x = 0
     for (const tree of this.treeSpawner.treeLines) {
         tree.vel.y = 0;
     }
-    this.gameOverScreen = new GameOverScreen(this.UIScore.score, this)
-    this.add(this.gameOverScreen)
+    const wait = new Timer({
+      fcn: () => {
+        this.gameOverScreen = new GameOverScreen(this.UIScore.score, this)
+        this.add(this.gameOverScreen)
+      },
+      repeats: false,
+      interval: 1000
+    })
+    wait.start()
+    this.add(wait)
   }
 
   retry() {
@@ -86,7 +94,7 @@ export class Game extends Engine {
     this.gameover = false
     this.UIScore.score = 0
     // Player reset
-    this.player.pos.x = this.screen.drawWidth / 2
+    this.player.pos.x = 128
     this.player.rotation = 0
     // Background reset
     this.background.vel.y = -100
@@ -94,27 +102,29 @@ export class Game extends Engine {
     // Collectable reset
     this.collectable.vel.y = -100
     this.collectable.pos = new Vector(
-      Math.random() * (this.screen.drawWidth - 64) + 64,
-      Math.random() * (this.screen.drawHeight) + this.screen.drawHeight
+      Math.random() * (256 - 64) + 64,
+      Math.random() * (256) + 256
     );
     this.collectable.graphics.visible = true
     // Input reset
-    this.input.keyboard.off("press")
-    this.input.keyboard.on("press", (e) => this.player.keyPressed(e));
-    this.input.keyboard.on("release", (e) => this.player.keyReleased(e));
-    if (this.input.keyboard.isHeld('KeyA') || this.input.keyboard.isHeld('ArrowLeft')) {
+    this.engine.input.keyboard.off("press")
+    this.engine.input.keyboard.on("press", (e) => this.player.keyPressed(e));
+    this.engine.input.keyboard.on("release", (e) => this.player.keyReleased(e));
+    if (this.engine.input.keyboard.isHeld('KeyA') || this.engine.input.keyboard.isHeld('ArrowLeft')) {
       this.player.direction.x = 1
-    } else if (this.input.keyboard.isHeld('KeyD') || this.input.keyboard.isHeld('ArrowRight')) {
+    } else if (this.engine.input.keyboard.isHeld('KeyD') || this.engine.input.keyboard.isHeld('ArrowRight')) {
       this.player.direction.x = -1
     }
     // Trees reset
     for (let i = 0; i < this.treeSpawner.treeLines.length; i++) {
       this.treeSpawner.treeLines[i].vel.y = -100;
-      this.treeSpawner.treeLines[i].pos = new Vector(this.screen.drawWidth / 2, this.screen.drawHeight * (i + 1))
+      this.treeSpawner.treeLines[i].pos = new Vector(128, 256 * (i + 1) + 256)
     }
     // Screen reset
     this.gameOverScreen.kill()
-
+    // Camera reset
+    this.engine.currentScene.camera.move(new Vector(128, 128), 1000)
+    this.engine.currentScene.camera.zoomOverTime(1, 1000)
   }
 
   onPostUpdate() {
@@ -123,7 +133,7 @@ export class Game extends Engine {
 
   onPostDraw() {
     if (this.gameover == false) {
-        this.UIScore.updateScore(this.clock.elapsed() / 100)
+        this.UIScore.updateScore(this.engine.clock.elapsed() / 100)
     }
   }
 }
