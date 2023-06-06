@@ -42,11 +42,14 @@ export class Game extends Engine {
      }
 
     buttonHandler(e) {
+        console.log('button')
+
         if (this.currentScene instanceof StartScreen) {
             this.currentScene.startButton()
         }
-        if (this.currentScene instanceof Game) {
+        if (this.currentScene instanceof Level) {
             this.currentScene.retry()
+            console.log('retry')
         }
     }
 
