@@ -5,12 +5,14 @@ import { Game } from "./main";
 export class StartScreen extends Scene {
 
     bg;
+    engine;
 
     constructor() {
         super()
     }
 
     onInitialize(engine) {
+        this.engine = engine;
         this.bg = new Actor({
             x: 256 / 2,
             y: 256 / 2
@@ -42,20 +44,22 @@ export class StartScreen extends Scene {
             height: Resources.Start.height
         })
         button.graphics.use(Resources.Start.toSprite())
+
         engine.input.keyboard.on('press', (e) => {
             if (e.value === ' ') {
-                engine.input.keyboard.off('press')
-                engine.goToScene('game', this.bg.pos.y)
+                this.startButton()
             }
         })
-        button.on('pointerup', () => { 
-            engine.input.keyboard.off('press')
-            engine.goToScene('game', this.bg.pos.y)
-     })
+        button.on('pointerup', () => {this.startButton()})
      
         this.add(this.bg)
         this.add(button)
         this.add(title)
+    }
+
+    startButton() {
+        this.engine.input.keyboard.off('press')
+        this.engine.goToScene('game', this.bg.pos.y)
     }
 
     onPreUpdate() {

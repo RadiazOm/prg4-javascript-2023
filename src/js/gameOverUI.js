@@ -6,6 +6,7 @@ export class GameOverScreen extends UI {
 
     score;
     engine;
+    self;
 
     constructor(score) {
         super()
@@ -13,11 +14,12 @@ export class GameOverScreen extends UI {
     }
 
     onInitialize(engine) {
+      this.self = this;
       this.engine = engine
         const label = new Label({
             text: `Game Over. Your score was:
     ${Math.ceil(this.score)}`,
-            pos: new Vector(this.engine.currentScene.camera.pos.x - 40, this.engine.currentScene.camera.pos.y - 40),
+            pos: new Vector(this.engine.currentScene.camera.pos.x - 43, this.engine.currentScene.camera.pos.y - 40),
             font: this.spriteFont
         });
         label.scale = new Vector(0.5, 0.5)
@@ -47,8 +49,18 @@ ${Math.ceil(this.score)}`;
             this.engine.currentScene.retry()
           }
         })
+
+        document.addEventListener("joystick0button0", this.retryButton);
+        document.addEventListener("joystick1button0", this.retryButton);
+
         button.on('pointerup', () => {this.engine.currentScene.retry()})
         this.addChild(button)
         this.addChild(label);
+    }
+
+    retryButton() {
+      document.removeEventListener("joystick0button0", self.retryButton)
+      document.removeEventListener("joystick1button0", self.retryButton);
+      self.engine.currentScene.retry()
     }
 }

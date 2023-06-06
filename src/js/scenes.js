@@ -8,6 +8,7 @@ export class Scenes extends Engine {
 
     arcade;
     joystickListener;
+    button;
 
     constructor() {
         super({
@@ -22,9 +23,13 @@ export class Scenes extends Engine {
     }
 
     startGame() {
-        this.arcade = new Arcade(this, false, true)
+        this.arcade = new Arcade(this, true, true)
         this.joystickListener = (e) => this.joyStickFound(e)
         document.addEventListener("joystickcreated",  this.joystickListener)
+
+        document.addEventListener("joystick0button0",() => {this.buttonHandler()});
+        document.addEventListener("joystick1button0",() => {this.buttonHandler()});
+
 
         this.addScene('startScreen', new StartScreen())
         this.addScene('game', new Game())
@@ -41,15 +46,23 @@ export class Scenes extends Engine {
         for (const buttonEvent of joystick.ButtonEvents) {
             document.addEventListener(buttonEvent, () => console.log(buttonEvent))
         }
- 
     }
 
     onPreUpdate() {
-        console.log('update')
         for (let joystick of this.arcade.Joysticks) {
             joystick.update()
         }
      }
+
+    buttonHandler(e) {
+        console.log(this.currentScene)
+        if (this.currentScene instanceof StartScreen) {
+            this.currentScene.startButton()
+        }
+        if (this.currentScene instanceof Game) {
+            this.currentScene.retry()
+        }
+    }
 
     disconnect() {
         document.removeEventListener("joystickcreated", this.joystickListener)

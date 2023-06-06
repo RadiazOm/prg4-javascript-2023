@@ -90,6 +90,9 @@ export class Game extends Scene {
   }
 
   retry() {
+    if (this.gameOverScreen === undefined) {
+      return;
+    }
     // Config reset
     this.gameover = false
     this.UIScore.score = 0
@@ -122,6 +125,7 @@ export class Game extends Scene {
     }
     // Screen reset
     this.gameOverScreen.kill()
+    this.gameOverScreen = undefined
     // Camera reset
     this.engine.currentScene.camera.move(new Vector(128, 128), 1000)
     this.engine.currentScene.camera.zoomOverTime(1, 1000)
@@ -132,6 +136,7 @@ export class Game extends Scene {
   }
 
   onPostDraw() {
+    console.log(this.gameOverScreen)
     if (this.gameover == false) {
         this.UIScore.updateScore(this.engine.clock.elapsed() / 100)
     }

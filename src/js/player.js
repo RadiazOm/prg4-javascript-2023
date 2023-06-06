@@ -26,9 +26,16 @@ export class Player extends Actor {
         this.engine = engine
         this.engine.input.keyboard.on("press", (e) => this.keyPressed(e));
         this.engine.input.keyboard.on("release", (e) => this.keyReleased(e));
-        if (engine.gamepad !== undefined) {
-            this.connectedGamepad(engine.gamepad)
-        }
+        document.addEventListener("joystick0left", () => this.gamepadLeft());
+        document.addEventListener("joystick1left", () => this.gamepadLeft());
+
+        document.addEventListener("joystick0right", () => this.gamepadRight());
+        document.addEventListener("joystick1right", () => this.gamepadRight());
+
+        document.addEventListener("joystick0neutral", () => this.gamepadNeutral());
+        document.addEventListener("joystick1neutral", () => this.gamepadNeutral());
+
+
         this.graphics.use(Resources.Ski.toSprite());
         this.pos = new Vector(this.engine.screen.drawWidth / 2, -100);
         this.scale = new Vector(1, 1);
@@ -57,22 +64,18 @@ export class Player extends Actor {
         this.engine.currentScene.camera.zoomOverTime(3, 1000)
     }
 
-    connectedGamepad(e) {
-        e.gamepad.on('axis', (ae) => {
-            console.log(ae)
-            if (ae.value > 0.5 && ae.axis == 0) {
-                this.direction.x = Math.max(this.direction.x - 1, -1);
-            }
-            if (ae.value < -0.5 && ae.axis == 0) {
-                this.direction.x = Math.min(this.direction.x + 1, 1)
-            }
-            if (ae.value < 0.5 && ae.value > -0.5 && ae.axis == 0) {
-                this.direction.x = 0
-            }
-        })
+
+    gamepadLeft(e) {
+        this.direction.x = Math.min(this.direction.x + 1, 1)
     }
 
+    gamepadRight(e) {
+        this.direction.x = Math.max(this.direction.x - 1, -1);
+    }
 
+    gamepadNeutral(e) {
+        this.direction.x = 0
+    }
 
     keyPressed(e) {
         if (e.value == "a" || e.value == "ArrowLeft") {
