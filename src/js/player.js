@@ -36,8 +36,12 @@ export class Player extends Actor {
         document.addEventListener("joystick1neutral", () => this.gamepadNeutral());
 
 
-
         this.graphics.use(Resources.Ski.toSprite());
+        if (localStorage.getItem('playerSprite')) {
+            let currentSprite = parseInt(localStorage.getItem('playerSprite'));
+            this.graphics.use(this.engine.currentScene.sprites[currentSprite])
+            this.engine.currentScene.playerSprite = currentSprite
+        }
         this.pos = new Vector(this.engine.screen.drawWidth / 2, -100);
         this.scale = new Vector(1, 1);
         this.on("collisionstart", (e) => this.OnCollision(e))
@@ -93,6 +97,14 @@ export class Player extends Actor {
     }
 
     keyPressed(e) {
+        if (e.value == "Escape") {
+            this.engine.currentScene.pause()
+            this.engine.currentScene.paused = !this.engine.currentScene.paused
+            console.log(e.value)
+        }
+        if (this.engine.currentScene.paused === true) {
+            return;
+        }
         if (e.value == "a" || e.value == "ArrowLeft") {
             this.direction.x = Math.min(this.direction.x + 1, 1)
         }
@@ -102,6 +114,9 @@ export class Player extends Actor {
     }
 
     keyReleased(e) {
+        if (this.engine.currentScene.paused === true) {
+            return;
+        }
         if (e.value == "a" || e.value == "ArrowLeft") {
             this.direction.x = Math.max(this.direction.x - 1, -1);
         }

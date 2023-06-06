@@ -7,6 +7,7 @@ import { FloatingText } from "./FloatingText.js";
 import { TreeSpawner } from "./treeSpawner.js";
 import { Score } from "./score.js";
 import { GameOverScreen } from "./gameOverUI.js";
+import { PauseMenu } from "./pauseMenu.js";
 
 
 
@@ -16,8 +17,12 @@ export class Game extends Scene {
   engine;
   tilemap;
   player;
+  playerSprite = 0
+  sprites = [Resources.Ski.toSprite(), Resources.Penguin.toSprite()]
   score = 0;
   trees = [];
+  paused = false
+  pauseMenu;
   gameover = false;
   gameOverScreen;
   gamepad;
@@ -40,7 +45,6 @@ export class Game extends Scene {
     // Background initialization
     this.background = new Background(this.treeSpawner);
     this.add(this.background);
-
 
     // // Collectable initialization
     this.collectable = new Collectable(this);
@@ -79,6 +83,8 @@ export class Game extends Scene {
       this.add(right)
       this.player.mobileControls(left, right)
     }
+
+
   }
 
   onActivate(bg) {
@@ -155,6 +161,35 @@ export class Game extends Scene {
     // Camera reset
     this.engine.currentScene.camera.move(new Vector(128, 128), 1000)
     this.engine.currentScene.camera.zoomOverTime(1, 1000)
+  }
+
+  pause() {
+    if (this.paused === false) {
+      this.gameover = true
+      this.player.vel.x = 0;
+      this.background.vel.y = 0;
+      this.collectable.vel.y = 0
+      this.player.direction.x = 0
+      for (const tree of this.treeSpawner.treeLines) {
+          tree.vel.y = 0;
+      }
+      this.pauseMenu = new PauseMenu(this.playerSprite)
+      this.add(this.pauseMenu)
+    } else {
+      this.gameover = false
+      this.background.vel.y = -100
+      this.collectable.vel.y = -100
+      this.player.direction.x = 0
+      if (this.engine.input.keyboard.isHeld('KeyA') || this.engine.input.keyboard.isHeld('ArrowLeft')) {
+        this.player.direction.x = 1
+      } else if (this.engine.input.keyboard.isHeld('KeyD') || this.engine.input.keyboard.isHeld('ArrowRight')) {
+        this.player.direction.x = -1
+      }
+      for (const tree of this.treeSpawner.treeLines) {
+        tree.vel.y = -100;
+      }
+      this.pauseMenu.kill()
+    }
   }
 
   onPostUpdate() {
