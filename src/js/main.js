@@ -70,6 +70,7 @@ export class Game extends Scene {
       this.add(left)
       this.add(right)
       this.player.mobileControls(left, right)
+      this.gameOver()
     }
   }
 
