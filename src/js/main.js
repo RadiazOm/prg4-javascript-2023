@@ -199,6 +199,12 @@ export class Game extends Scene {
   onPostDraw() {
     if (this.gameover == false) {
         this.UIScore.updateScore(this.engine.clock.elapsed() / 100)
+        this.background.vel.y -= this.engine.clock.elapsed() / 1000
+        this.collectable.vel.y = this.background.vel.y
+        for (const tree of this.treeSpawner.treeLines) {
+          tree.vel.y = this.background.vel.y;
+        }
+
     }
   }
 }

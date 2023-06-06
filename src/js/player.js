@@ -125,6 +125,10 @@ export class Player extends Actor {
         }
     }
 
+    onPreUpdate() {
+        this.pos.x = clamp(this.pos.x, 48, 208)
+    }
+
 
     onPostUpdate() {
         if (this.engine.currentScene.gameover == false) {
@@ -134,7 +138,6 @@ export class Player extends Actor {
                 this.rotation = Math.max(Math.PI * 2 - this.turningRadius, this.rotation + this.direction.x * this.turningSpeed * this.engine.clock.elapsed())
             }
             this.vel.x = -(this.rotation - ((this.rotation > this.turningRadius) * Math.PI * 2)) * this.strafingSpeed
-            this.pos.x = clamp(this.pos.x, 48, 208)
             this.pos.y = this.lerp(this.pos.y, 100, 0.01)
         }
     }
