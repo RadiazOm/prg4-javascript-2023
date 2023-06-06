@@ -57,11 +57,16 @@ export class Player extends Actor {
     }
 
     mobileControls(leftSide, rightSide) {
+
         leftSide.on('pointerdown', () => {
-            this.direction.x = -1
+            if (this.engine.currentScene.gameover === false) {
+                this.direction.x = 1
+            }
         })
         rightSide.on('pointerdown', () => {
-            this.direction.x = 1
+            if (this.engine.currentScene.gameover === false) {
+                this.direction.x = -1
+            }
         })
     }
 

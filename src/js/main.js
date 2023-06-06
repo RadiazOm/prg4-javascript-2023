@@ -56,12 +56,14 @@ export class Game extends Scene {
 
     if (window.navigator.userAgent.match(/Iphone/i)) {
       let left = new Actor({
+        anchor: new Vector(0, 0),
         x: 0,
         y: 0,
         width: 128,
         height: 256
       })
       let right = new Actor({
+        anchor: new Vector(0, 0),
         x: 128,
         y: 0,
         width: 128,
@@ -70,7 +72,6 @@ export class Game extends Scene {
       this.add(left)
       this.add(right)
       this.player.mobileControls(left, right)
-      this.gameOver()
     }
   }
 
@@ -132,6 +133,7 @@ export class Game extends Scene {
     this.engine.input.keyboard.off("press")
     this.engine.input.keyboard.on("press", (e) => this.player.keyPressed(e));
     this.engine.input.keyboard.on("release", (e) => this.player.keyReleased(e));
+    this.player.direction.x = 0
     if (this.engine.input.keyboard.isHeld('KeyA') || this.engine.input.keyboard.isHeld('ArrowLeft')) {
       this.player.direction.x = 1
     } else if (this.engine.input.keyboard.isHeld('KeyD') || this.engine.input.keyboard.isHeld('ArrowRight')) {

@@ -18,7 +18,7 @@ export class Scenes extends Engine {
             displayMode: DisplayMode.FitScreen
         });
         this.setAntialiasing(false)
-        this.showDebug(false)
+        this.showDebug(true)
         this.start(ResourceLoader).then(() => this.startGame());
     }
 
