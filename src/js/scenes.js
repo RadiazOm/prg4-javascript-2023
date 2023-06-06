@@ -23,7 +23,7 @@ export class Scenes extends Engine {
     }
 
     startGame() {
-        this.arcade = new Arcade(this, true, true)
+        this.arcade = new Arcade(this, true, false)
         this.joystickListener = (e) => this.joyStickFound(e)
         document.addEventListener("joystickcreated",  this.joystickListener)
 
@@ -37,17 +37,6 @@ export class Scenes extends Engine {
         this.goToScene('startScreen')
     }
 
-    joyStickFound(e) {
-        console.log('yahoo')
-
-        let joystick = this.arcade.Joysticks[e.detail]
-        
-        // debug, this shows you the names of the buttons when they are pressed
-        for (const buttonEvent of joystick.ButtonEvents) {
-            document.addEventListener(buttonEvent, () => console.log(buttonEvent))
-        }
-    }
-
     onPreUpdate() {
         for (let joystick of this.arcade.Joysticks) {
             joystick.update()
@@ -55,7 +44,6 @@ export class Scenes extends Engine {
      }
 
     buttonHandler(e) {
-        console.log(this.currentScene)
         if (this.currentScene instanceof StartScreen) {
             this.currentScene.startButton()
         }
