@@ -36,6 +36,7 @@ export class Player extends Actor {
         document.addEventListener("joystick1neutral", () => this.gamepadNeutral());
 
 
+
         this.graphics.use(Resources.Ski.toSprite());
         this.pos = new Vector(this.engine.screen.drawWidth / 2, -100);
         this.scale = new Vector(1, 1);
@@ -53,6 +54,15 @@ export class Player extends Actor {
             this.engine.currentScene.gameOver()
             this.focusPlayer()
         }
+    }
+
+    mobileControls(leftSide, rightSide) {
+        leftSide.on('pointerdown', () => {
+            this.direction.x = -1
+        })
+        rightSide.on('pointerdown', () => {
+            this.direction.x = 1
+        })
     }
 
     lerp(start, end, amt) {

@@ -53,6 +53,24 @@ export class Game extends Scene {
     // Tree spawner
     this.treeSpawner = new TreeSpawner(this.engine);
     this.add(this.treeSpawner);
+
+    if (window.navigator.userAgent.match(/Iphone/i)) {
+      let left = new Actor({
+        x: 0,
+        y: 0,
+        width: 128,
+        height: 256
+      })
+      let right = new Actor({
+        x: 128,
+        y: 0,
+        width: 128,
+        height: 256
+      })
+      this.add(left)
+      this.add(right)
+      this.player.mobileControls(left, right)
+    }
   }
 
   onActivate(bg) {
