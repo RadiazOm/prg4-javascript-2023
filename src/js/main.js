@@ -54,7 +54,13 @@ export class Game extends Scene {
     this.treeSpawner = new TreeSpawner(this.engine);
     this.add(this.treeSpawner);
 
-    if (window.navigator.userAgent.match(/Iphone/i)) {
+    if (navigator.userAgent.match(/Android/i)
+         || navigator.userAgent.match(/webOS/i)
+         || navigator.userAgent.match(/iPhone/i)
+         || navigator.userAgent.match(/iPad/i)
+         || navigator.userAgent.match(/iPod/i)
+         || navigator.userAgent.match(/BlackBerry/i)
+         || navigator.userAgent.match(/Windows Phone/i)) {
       let left = new Actor({
         anchor: new Vector(0, 0),
         x: 0,
@@ -76,7 +82,6 @@ export class Game extends Scene {
   }
 
   onActivate(bg) {
-    console.log(bg.data)
     this.background.pos.y = bg.data - 256
   }
 
@@ -157,7 +162,6 @@ export class Game extends Scene {
   }
 
   onPostDraw() {
-    console.log(this.gameOverScreen)
     if (this.gameover == false) {
         this.UIScore.updateScore(this.engine.clock.elapsed() / 100)
     }

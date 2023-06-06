@@ -50,17 +50,12 @@ ${Math.ceil(this.score)}`;
           }
         })
 
-        document.addEventListener("joystick0button0", this.retryButton);
-        document.addEventListener("joystick1button0", this.retryButton);
-
         button.on('pointerup', () => {this.engine.currentScene.retry()})
         this.addChild(button)
         this.addChild(label);
     }
 
     retryButton() {
-      document.removeEventListener("joystick0button0", self.retryButton)
-      document.removeEventListener("joystick1button0", self.retryButton);
-      self.engine.currentScene.retry()
+      this.engine.currentScene.retry()
     }
 }

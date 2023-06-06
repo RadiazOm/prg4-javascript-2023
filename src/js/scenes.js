@@ -24,8 +24,6 @@ export class Scenes extends Engine {
 
     startGame() {
         this.arcade = new Arcade(this, true, false)
-        this.joystickListener = (e) => this.joyStickFound(e)
-        document.addEventListener("joystickcreated",  this.joystickListener)
 
         document.addEventListener("joystick0button0",() => {this.buttonHandler()});
         document.addEventListener("joystick1button0",() => {this.buttonHandler()});
