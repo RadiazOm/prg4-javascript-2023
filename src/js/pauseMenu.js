@@ -6,6 +6,7 @@ export class PauseMenu extends UI {
 
     engine;
     currentSprite;
+    menuSprite
 
     constructor(currentSprite) {
         super()
@@ -23,30 +24,30 @@ export class PauseMenu extends UI {
         })
         background.graphics.use(Resources.Pause.toSprite())
 
-        const playerSprite = new Actor({
+        this.menuSprite = new Actor({
             x: 128,
             y: 128 + 10,
             width: Resources.Penguin.width,
             height: Resources.Penguin.height
         })
-        playerSprite.graphics.use(Resources.Penguin.toSprite())
+        this.menuSprite.graphics.use(this.engine.currentScene.sprites[this.currentSprite])
 
         const leftArrow = new Actor({
             x: 128 - 17,
             y: 128 + 10,
-            width: Resources.Ski.width,
-            height: Resources.Ski.height
+            width: Resources.Left.width,
+            height: Resources.Left.height
         })
-        leftArrow.graphics.use(Resources.Ski.toSprite())
+        leftArrow.graphics.use(Resources.Left.toSprite())
         leftArrow.on('pointerup', () => {this.changeSprite(-1)})
 
         const rightArrow = new Actor({
             x: 128 + 17,
             y: 128 + 10,
-            width: Resources.Ski.width,
-            height: Resources.Ski.height
+            width: Resources.Right.width,
+            height: Resources.Right.height
         })
-        rightArrow.graphics.use(Resources.Ski.toSprite())
+        rightArrow.graphics.use(Resources.Right.toSprite())
         rightArrow.on('pointerup', () => {this.changeSprite(1)})
 
 
@@ -69,7 +70,7 @@ export class PauseMenu extends UI {
         })
 
         this.addChild(background)
-        this.addChild(playerSprite)
+        this.addChild(this.menuSprite)
         this.addChild(leftArrow)
         this.addChild(rightArrow)
         this.addChild(button)
@@ -87,6 +88,7 @@ export class PauseMenu extends UI {
         }
         this.engine.currentScene.player.graphics.use(this.engine.currentScene.sprites[this.currentSprite])
         this.engine.currentScene.playerSprite = this.currentSprite
+        this.menuSprite.graphics.use(this.engine.currentScene.sprites[this.currentSprite])
         localStorage.setItem('playerSprite', this.currentSprite.toString())
     }
 

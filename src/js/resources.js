@@ -13,6 +13,8 @@ import retryImage from "../images/RetryButton.png";
 import startImage from "../images/StartButton.png";
 import resumeImage from "../images/ResumeButton.png";
 import pauseImage from "../images/PauseMenu.png";
+import leftArrowImage from "../images/LeftArrow.png";
+import rightArrowImage from "../images/RightArrow.png";
 
 const Resources = {
   Fish: new ImageSource(fishImage),
@@ -27,7 +29,10 @@ const Resources = {
   Title: new ImageSource(titleTextImage),
   Resume: new ImageSource(resumeImage),
   Pause: new ImageSource(pauseImage),
-  Penguin: new ImageSource(penguinImage)
+  Penguin: new ImageSource(penguinImage),
+  Left: new ImageSource(leftArrowImage),
+  Right: new ImageSource(rightArrowImage)
+
 };
 const ResourceLoader = new Loader([
   Resources.Fish,
@@ -42,7 +47,9 @@ const ResourceLoader = new Loader([
   Resources.Title,
   Resources.Resume,
   Resources.Pause,
-  Resources.Penguin
+  Resources.Penguin,
+  Resources.Left,
+  Resources.Right
 ]);
 ResourceLoader.logo = titleImage
 ResourceLoader.logoWidth = 256
