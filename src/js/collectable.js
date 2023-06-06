@@ -1,5 +1,5 @@
 import { Actor, Engine, Vector, Label, Color, Font, FontUnit,  TileMap, DisplayMode, ParticleEmitter, EmitterType, Timer } from "excalibur";
-import { Game } from "./main.js";
+import { Level } from "./level.js";
 import { Resources, ResourceLoader } from "./resources.js";
 
 export class Collectable extends Actor {

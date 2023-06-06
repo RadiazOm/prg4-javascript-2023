@@ -1,6 +1,6 @@
 import { Actor, Engine, Vector, Scene, GraphicsGroup } from "excalibur";
 import { Resources, ResourceLoader } from "./resources.js";
-import { Game } from "./main";
+import { Level } from "./level.js";
 
 export class StartScreen extends Scene {
 
