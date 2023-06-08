@@ -56,5 +56,6 @@ ResourceLoader.logoWidth = 256
 ResourceLoader.logoHeight = 256
 ResourceLoader.backgroundColor = Color.ExcaliburBlue
 ResourceLoader.loadingBarColor = Color.Black
+ResourceLoader.suppressPlayButton = true
 
 export { Resources, ResourceLoader };
