@@ -54,7 +54,7 @@ const ResourceLoader = new Loader([
 ResourceLoader.logo = titleImage
 ResourceLoader.logoWidth = 256
 ResourceLoader.logoHeight = 256
-ResourceLoader.backgroundColor = Color.ExcaliburBlue
+ResourceLoader.backgroundColor = Color.fromHex('#eef8fe')
 ResourceLoader.loadingBarColor = Color.Black
 ResourceLoader.suppressPlayButton = true
 
